@@ -1,0 +1,578 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    border-radius: 0;
+    padding: 5px;
+    width: 100vw;
+    height: 100vh;
+    box-shadow: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    gap: 15px;
+    flex-shrink: 0;
+    min-height: 0;
+}
+
+.btn-small {
+    padding: 4px 10px;
+    font-size: 0.75em;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.game-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 3px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    flex-shrink: 0;
+    min-height: 0;
+}
+
+.info-item {
+    font-size: 0.75em;
+    font-weight: 600;
+    color: #555;
+}
+
+.label {
+    color: #667eea;
+    margin-right: 5px;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 8px;
+    margin: 0;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+}
+
+.card {
+    background: #667eea;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+}
+
+.card:hover:not(.flipped):not(.matched) {
+    transform: scale(1.05);
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.card.matched {
+    transform: rotateY(180deg);
+    opacity: 0.6;
+    cursor: default;
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.card-front {
+    background: #667eea;
+    color: white;
+    font-size: 1.5em;
+}
+
+.card-back {
+    background: white;
+    transform: rotateY(180deg);
+    padding: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.card-back img {
+    width: 100%;
+    flex: 1;
+    object-fit: contain;
+}
+
+.country-name {
+    font-size: 0.5em;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.1;
+}
+
+.controls {
+    text-align: center;
+    margin-top: 0;
+    display: none;
+}
+
+.btn {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.modal-content p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.player-score {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.player-score.player1 {
+    border: 2px solid #667eea;
+}
+
+.player-score.player2 {
+    border: 2px solid #28a745;
+}
+
+.player-name {
+    font-size: 0.7em;
+    font-weight: 600;
+    color: #555;
+}
+
+.score-value {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.player-score.player2 .score-value {
+    color: #28a745;
+}
+
+.current-player {
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+    flex-shrink: 0;
+    min-height: 0;
+}
+
+.current-player.player1-turn {
+    background: #667eea;
+    color: white;
+}
+
+.current-player.player2-turn {
+    background: #28a745;
+    color: white;
+}
+
+/* 스마트폰 세로 모드 (768px 이하) */
+@media (max-width: 768px) and (orientation: portrait) {
+    body {
+        transform: rotate(90deg);
+        transform-origin: center center;
+        width: 100vh;
+        height: 100vw;
+        padding: 0;
+    }
+    
+    .container {
+        padding: 2px;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+    
+    .header-row {
+        margin-bottom: 1px;
+        gap: 2px;
+        flex-shrink: 0;
+        min-height: 0;
+    }
+    
+    h1 {
+        font-size: 0.5em;
+    }
+    
+    .btn-small {
+        font-size: 0.4em;
+        padding: 1px 3px;
+    }
+    
+    .game-info {
+        padding: 1px;
+        margin-bottom: 1px;
+        flex-shrink: 0;
+        min-height: 0;
+    }
+    
+    .player-score {
+        padding: 1px 2px;
+    }
+    
+    .player-name {
+        font-size: 0.35em;
+    }
+    
+    .score-value {
+        font-size: 0.5em;
+    }
+    
+    .info-item {
+        font-size: 0.4em;
+    }
+    
+    .current-player {
+        font-size: 0.45em;
+        padding: 1px;
+        margin-bottom: 1px;
+        flex-shrink: 0;
+        min-height: 0;
+    }
+    
+    .game-board {
+        gap: 2px;
+        margin: 0;
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        min-width: 0;
+    }
+    
+    .card {
+        border-radius: 3px;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        min-width: 0;
+    }
+    
+    .country-name {
+        font-size: 0.25em;
+    }
+    
+    .card-front {
+        font-size: 0.6em;
+    }
+    
+    .card-back {
+        padding: 1px;
+        gap: 0;
+    }
+}
+
+/* 태블릿 세로 모드 (769px ~ 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
+    body {
+        transform: rotate(90deg);
+        transform-origin: center center;
+        width: 100vh;
+        height: 100vw;
+        padding: 0;
+    }
+    
+    .container {
+        padding: 3px;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+    
+    .header-row {
+        margin-bottom: 2px;
+        gap: 3px;
+        flex-shrink: 0;
+        min-height: 0;
+    }
+    
+    h1 {
+        font-size: 0.65em;
+    }
+    
+    .btn-small {
+        font-size: 0.5em;
+        padding: 2px 4px;
+    }
+    
+    .game-info {
+        padding: 2px;
+        margin-bottom: 2px;
+        flex-shrink: 0;
+        min-height: 0;
+    }
+    
+    .player-score {
+        padding: 2px 3px;
+    }
+    
+    .player-name {
+        font-size: 0.45em;
+    }
+    
+    .score-value {
+        font-size: 0.65em;
+    }
+    
+    .info-item {
+        font-size: 0.5em;
+    }
+    
+    .current-player {
+        font-size: 0.55em;
+        padding: 2px;
+        margin-bottom: 2px;
+        flex-shrink: 0;
+        min-height: 0;
+    }
+    
+    .game-board {
+        gap: 3px;
+        margin: 0;
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        min-width: 0;
+    }
+    
+    .card {
+        border-radius: 4px;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        min-width: 0;
+    }
+    
+    .country-name {
+        font-size: 0.3em;
+    }
+    
+    .card-front {
+        font-size: 0.8em;
+    }
+    
+    .card-back {
+        padding: 2px;
+        gap: 1px;
+    }
+}
+
+/* 모바일/태블릿 가로 모드 최적화 */
+@media (max-width: 1366px) and (orientation: landscape) {
+    body {
+        padding: 0;
+    }
+    
+    .container {
+        padding: 3px;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+    
+    .header-row {
+        margin-bottom: 2px;
+        gap: 3px;
+        flex-shrink: 0;
+        min-height: 0;
+    }
+    
+    h1 {
+        font-size: 0.65em;
+    }
+    
+    .btn-small {
+        font-size: 0.5em;
+        padding: 2px 4px;
+    }
+    
+    .game-info {
+        padding: 2px;
+        margin-bottom: 2px;
+        flex-shrink: 0;
+        min-height: 0;
+    }
+    
+    .player-score {
+        padding: 2px 3px;
+    }
+    
+    .player-name {
+        font-size: 0.45em;
+    }
+    
+    .score-value {
+        font-size: 0.65em;
+    }
+    
+    .info-item {
+        font-size: 0.5em;
+    }
+    
+    .current-player {
+        font-size: 0.55em;
+        padding: 2px;
+        margin-bottom: 2px;
+        flex-shrink: 0;
+        min-height: 0;
+    }
+    
+    .game-board {
+        gap: 3px;
+        margin: 0;
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        min-width: 0;
+    }
+    
+    .card {
+        border-radius: 4px;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        min-width: 0;
+    }
+    
+    .country-name {
+        font-size: 0.3em;
+    }
+    
+    .card-front {
+        font-size: 0.8em;
+    }
+    
+    .card-back {
+        padding: 2px;
+        gap: 1px;
+    }
+}

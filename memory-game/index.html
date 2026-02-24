@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>쭈니 국기 메모리 게임</title>
+    <link rel="stylesheet" href="./style-mobile.css?v=18">
+</head>
+<body>
+    <div class="container">
+        <div class="header-row">
+            <button id="restartBtn" class="btn btn-small">새 게임</button>
+            
+            <div class="player-score player1">
+                <span class="player-name">아빠</span>
+                <span class="score-value" id="player1Score">0</span>
+            </div>
+            
+            <h1>🌍 쭈니 국기 메모리 게임</h1>
+            
+            <div class="player-score player2">
+                <span class="player-name">쭈니</span>
+                <span class="score-value" id="player2Score">0</span>
+            </div>
+        </div>
+
+        <div class="game-info">
+            <div class="info-item">
+                시도: <span id="attempts">0</span>회
+            </div>
+        </div>
+
+        <div id="currentPlayer" class="current-player">아빠 차례</div>
+
+        <div id="gameBoard" class="game-board"></div>
+
+        <div id="winModal" class="modal">
+            <div class="modal-content">
+                <h2>🎉 축하합니다! 🎉</h2>
+                <p id="winMessage"></p>
+                <button id="playAgainBtn" class="btn">다시 하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js?v=25"></script>
+</body>
+</html>

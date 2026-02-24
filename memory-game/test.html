@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>국기 테스트</title>
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        img {
+            width: 160px;
+            margin: 10px;
+            border: 1px solid #ccc;
+        }
+        .test-item {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>국기 이미지 로드 테스트</h1>
+    
+    <div class="test-item">
+        <h3>대한민국 (KR)</h3>
+        <img src="https://flagcdn.com/w160/kr.png" alt="대한민국" onerror="this.style.border='3px solid red'">
+    </div>
+    
+    <div class="test-item">
+        <h3>미국 (US)</h3>
+        <img src="https://flagcdn.com/w160/us.png" alt="미국" onerror="this.style.border='3px solid red'">
+    </div>
+    
+    <div class="test-item">
+        <h3>일본 (JP)</h3>
+        <img src="https://flagcdn.com/w160/jp.png" alt="일본" onerror="this.style.border='3px solid red'">
+    </div>
+    
+    <div class="test-item">
+        <h3>중국 (CN)</h3>
+        <img src="https://flagcdn.com/w160/cn.png" alt="중국" onerror="this.style.border='3px solid red'">
+    </div>
+    
+    <p>빨간 테두리가 있으면 이미지 로드 실패</p>
+    
+    <script>
+        console.log('테스트 페이지 로드됨');
+        
+        var images = document.querySelectorAll('img');
+        images.forEach(function(img) {
+            img.onload = function() {
+                console.log('로드 성공:', img.alt);
+            };
+            img.onerror = function() {
+                console.log('로드 실패:', img.alt);
+            };
+        });
+    </script>
+</body>
+</html>
