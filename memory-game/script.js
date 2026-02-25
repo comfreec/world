@@ -223,7 +223,7 @@ function speakCountryName(countryName, rate) {
             utterance.lang = 'ko-KR';
             utterance.rate = rate || 0.9;
             utterance.pitch = 1;
-            utterance.volume = 1;
+            utterance.volume = 10;
             window.speechSynthesis.speak(utterance);
         }
     } catch(e) {
