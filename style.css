@@ -12,6 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    touch-action: manipulation;
 }
 
 .container {
@@ -87,19 +88,20 @@ h1 {
 
 .option-btn {
     padding: 15px 20px;
-    font-size: 1.1em;
+    font-size: 1.3em;
     border: 2px solid #667eea;
     background: white;
     color: #667eea;
     border-radius: 10px;
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-    font-weight: 600;
+    font-weight: 900;
     outline: none;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+    touch-action: manipulation;
 }
 
 .option-btn:focus {
@@ -114,20 +116,28 @@ h1 {
     outline: none;
 }
 
-.option-btn:hover:not(:disabled) {
-    background: #667eea !important;
-    color: white !important;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+/* PC에서만 hover 효과 적용 */
+@media (hover: hover) and (pointer: fine) {
+    .option-btn:hover:not(:disabled) {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
 }
 
-/* 모바일에서 hover 효과 제거 */
+/* 터치 디바이스에서는 hover 효과 완전 비활성화 */
 @media (hover: none) {
-    .option-btn:hover:not(:disabled) {
-        background: white !important;
-        color: #667eea !important;
+    .option-btn:hover {
+        background: white;
+        color: #667eea;
         transform: none;
         box-shadow: none;
+    }
+    
+    .option-btn:active {
+        background: white;
+        color: #667eea;
     }
 }
 

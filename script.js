@@ -278,94 +278,6 @@ const choiceArea = document.getElementById('choiceArea');
 const inputArea = document.getElementById('inputArea');
 const countryInput = document.getElementById('countryInput');
 const submitBtn = document.getElementById('submitBtn');
-const drawingCanvas = document.getElementById('drawingCanvas');
-const clearBtn = document.getElementById('clearBtn');
-
-// 캔버스 설정
-const ctx = drawingCanvas.getContext('2d');
-let isDrawing = false;
-let lastX = 0;
-let lastY = 0;
-let hasDrawing = false; // 캔버스에 그림이 있는지 체크
-
-// 캔버스 그리기 설정
-ctx.strokeStyle = '#333';
-ctx.lineWidth = 3;
-ctx.lineCap = 'round';
-ctx.lineJoin = 'round';
-
-// 마우스 이벤트
-drawingCanvas.addEventListener('mousedown', startDrawing);
-drawingCanvas.addEventListener('mousemove', draw);
-drawingCanvas.addEventListener('mouseup', stopDrawing);
-drawingCanvas.addEventListener('mouseout', stopDrawing);
-
-// 터치 이벤트
-drawingCanvas.addEventListener('touchstart', handleTouchStart);
-drawingCanvas.addEventListener('touchmove', handleTouchMove);
-drawingCanvas.addEventListener('touchend', stopDrawing);
-
-function startDrawing(e) {
-    isDrawing = true;
-    const rect = drawingCanvas.getBoundingClientRect();
-    lastX = e.clientX - rect.left;
-    lastY = e.clientY - rect.top;
-}
-
-function draw(e) {
-    if (!isDrawing) return;
-    
-    const rect = drawingCanvas.getBoundingClientRect();
-    const currentX = e.clientX - rect.left;
-    const currentY = e.clientY - rect.top;
-    
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(currentX, currentY);
-    ctx.stroke();
-    
-    lastX = currentX;
-    lastY = currentY;
-    hasDrawing = true; // 그림이 그려졌음을 표시
-}
-
-function stopDrawing() {
-    isDrawing = false;
-}
-
-function handleTouchStart(e) {
-    e.preventDefault();
-    const touch = e.touches[0];
-    const rect = drawingCanvas.getBoundingClientRect();
-    isDrawing = true;
-    lastX = touch.clientX - rect.left;
-    lastY = touch.clientY - rect.top;
-}
-
-function handleTouchMove(e) {
-    e.preventDefault();
-    if (!isDrawing) return;
-    
-    const touch = e.touches[0];
-    const rect = drawingCanvas.getBoundingClientRect();
-    const currentX = touch.clientX - rect.left;
-    const currentY = touch.clientY - rect.top;
-    
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(currentX, currentY);
-    ctx.stroke();
-    
-    lastX = currentX;
-    lastY = currentY;
-    hasDrawing = true; // 그림이 그려졌음을 표시
-}
-
-// 캔버스 지우기
-clearBtn.addEventListener('click', () => {
-    ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
-    hasDrawing = false; // 그림이 지워졌음을 표시
-});
 
 // 게임 초기화
 function initGame() {
@@ -416,8 +328,6 @@ function loadQuestion() {
         countryInput.value = '';
         countryInput.disabled = false;
         submitBtn.disabled = false;
-        ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
-        hasDrawing = false; // 그림 상태 초기화
         countryInput.focus();
         return;
     }
@@ -442,14 +352,24 @@ function loadQuestion() {
         btn.disabled = false;
         btn.removeAttribute('style');
         btn.textContent = allOptions[index].name;
-        btn.onclick = () => checkAnswer(allOptions[index]);
         
-        // 모바일 터치 이벤트 처리
-        btn.ontouchend = (e) => {
+        let touchHandled = false;
+        
+        // 터치 이벤트 처리 - 즉시 반응
+        btn.ontouchstart = (e) => {
             e.preventDefault();
-            if (!btn.disabled) {
+            if (!btn.disabled && !touchHandled) {
+                touchHandled = true;
                 checkAnswer(allOptions[index]);
             }
+        };
+        
+        // 클릭 이벤트 (PC용)
+        btn.onclick = (e) => {
+            if (!touchHandled && !btn.disabled) {
+                checkAnswer(allOptions[index]);
+            }
+            touchHandled = false;
         };
     });
 }
@@ -479,14 +399,23 @@ function reloadSameQuestion() {
         const countryName = btn.textContent;
         const country = countries.find(c => c.name === countryName);
         if (country) {
-            btn.onclick = () => checkAnswer(country);
+            let touchHandled = false;
             
-            // 모바일 터치 이벤트 처리
-            btn.ontouchend = (e) => {
+            // 터치 이벤트 처리 - 즉시 반응
+            btn.ontouchstart = (e) => {
                 e.preventDefault();
-                if (!btn.disabled) {
+                if (!btn.disabled && !touchHandled) {
+                    touchHandled = true;
                     checkAnswer(country);
                 }
+            };
+            
+            // 클릭 이벤트 (PC용)
+            btn.onclick = (e) => {
+                if (!touchHandled && !btn.disabled) {
+                    checkAnswer(country);
+                }
+                touchHandled = false;
             };
         }
     });
@@ -547,10 +476,10 @@ function checkAnswer(selectedCountry) {
             }
         });
         
-        // 1.5초 후 같은 문제 다시 로드
+        // 즉시 같은 문제 다시 로드 (지연 없음)
         setTimeout(() => {
             reloadSameQuestion();
-        }, 1500);
+        }, 100);
     }
 }
 
@@ -623,24 +552,12 @@ inputModeBtn.addEventListener('click', () => {
 
 // 입력 모드 제출
 submitBtn.addEventListener('click', () => {
-    console.log('Submit button clicked');
-    console.log('Has drawing:', hasDrawing);
-    
     const userAnswer = countryInput.value.trim();
-    console.log('User answer:', userAnswer);
     
-    // 캔버스에 그림이 있거나 입력창에 텍스트가 있으면 진행
-    if (userAnswer || hasDrawing) {
-        if (userAnswer) {
-            checkInputAnswer(userAnswer);
-        } else {
-            // 캔버스에만 그림이 있는 경우 - 입력창에 입력하라고 안내
-            feedbackElement.textContent = '캔버스에 쓴 글씨를 보고 아래 입력창에 입력해주세요!';
-            feedbackElement.className = 'feedback';
-            feedbackElement.style.color = '#667eea';
-        }
+    if (userAnswer) {
+        checkInputAnswer(userAnswer);
     } else {
-        alert('캔버스에 글씨를 쓰거나 입력창에 국가 이름을 입력해주세요!');
+        alert('국가 이름을 입력해주세요!');
     }
 });
 
@@ -691,8 +608,6 @@ function checkInputAnswer(userAnswer) {
                 countryInput.value = '';
                 countryInput.disabled = false;
                 submitBtn.disabled = false;
-                ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
-                hasDrawing = false; // 그림 상태 초기화
                 loadQuestion();
             }, 1000);
         }
@@ -706,8 +621,6 @@ function checkInputAnswer(userAnswer) {
             countryInput.value = '';
             countryInput.disabled = false;
             submitBtn.disabled = false;
-            ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
-            hasDrawing = false; // 그림 상태 초기화
             feedbackElement.textContent = '';
             feedbackElement.className = 'feedback';
         }, 2000);
@@ -732,14 +645,6 @@ function speakCountryName(countryName) {
     } catch(e) {
         console.log('음성 재생 실패:', e);
     }
-}
-
-// 전체화면 버튼 이벤트
-const fullscreenBtn = document.getElementById('fullscreenBtn');
-if (fullscreenBtn) {
-    fullscreenBtn.addEventListener('click', function() {
-        requestFullscreen();
-    });
 }
 
 // 전체화면 요청 함수
