@@ -482,7 +482,7 @@ function loadSettings() {
 // 대륙 선택 UI 업데이트
 function updateContinentSelection() {
     // 모든 대륙 선택 해제
-    document.querySelectorAll('.continent').forEach(function(el) {
+    document.querySelectorAll('.continent-area').forEach(function(el) {
         el.classList.remove('selected');
     });
     document.querySelectorAll('.continent-btn').forEach(function(el) {
@@ -527,7 +527,7 @@ voiceToggle.addEventListener('change', function() {
 });
 
 // 세계지도 대륙 클릭 이벤트
-document.querySelectorAll('.continent').forEach(function(continent) {
+document.querySelectorAll('.continent-area').forEach(function(continent) {
     continent.addEventListener('click', function() {
         selectedContinent = this.getAttribute('data-continent');
         updateContinentSelection();
