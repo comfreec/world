@@ -72,7 +72,7 @@ var player1HighScore = 0;
 var player2HighScore = 0;
 var soundEnabled = true;
 var voiceEnabled = true;
-var pairsCount = 8; // 기본 난이도: 8쌍 (16장)
+var pairsCount = 16; // 기본 난이도: 16쌍 (32장) - 어려움
 var selectedContinent = 'all'; // 선택된 대륙: all, asia, europe, america, africa, oceania
 
 // LocalStorage에서 데이터 로드
