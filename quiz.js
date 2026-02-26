@@ -208,8 +208,7 @@ let soundEnabled = true; // 효과음 설정
 let voiceEnabled = true; // 음성 설정
 let gameStartCorrect = 0; // 게임 시작 시 정답 수
 let currentStreak = 0; // 현재 연속 정답
-let difficulty = 'easy'; // 난이도: easy(4개), medium(6개), hard(8개)
-let optionsCount = 4; // 선택지 개수
+let optionsCount = 4; // 선택지 개수 (고정)
 
 // LocalStorage에서 데이터 로드
 function loadGameData() {
@@ -344,28 +343,6 @@ const choiceArea = document.getElementById('choiceArea');
 const inputArea = document.getElementById('inputArea');
 const countryInput = document.getElementById('countryInput');
 const submitBtn = document.getElementById('submitBtn');
-
-// 난이도 버튼
-const difficultyButtons = document.querySelectorAll('.difficulty-btn');
-difficultyButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-        difficultyButtons.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        difficulty = this.dataset.difficulty;
-        
-        // 난이도에 따라 선택지 개수 설정
-        if (difficulty === 'easy') {
-            optionsCount = 4;
-        } else if (difficulty === 'medium') {
-            optionsCount = 6;
-        } else if (difficulty === 'hard') {
-            optionsCount = 8;
-        }
-        
-        // 게임 재시작
-        initGame();
-    });
-});
 
 // 게임 초기화
 function initGame() {
