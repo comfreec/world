@@ -498,3 +498,20 @@ h1 {
         width: 100%;
     }
 }
+
+.home-btn {
+    padding: 10px 15px;
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: all 0.3s;
+}
+
+.home-btn:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
