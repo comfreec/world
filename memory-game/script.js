@@ -80,6 +80,7 @@ var player1HighScore = 0;
 var player2HighScore = 0;
 var soundEnabled = true;
 var voiceEnabled = true;
+var pairsCount = 8; // 기본 난이도: 8쌍 (16장)
 
 // LocalStorage에서 데이터 로드
 function loadMemoryGameData() {
@@ -163,7 +164,7 @@ function initGame() {
     
     var shuffledCountries = allCountries.slice();
     shuffleArray(shuffledCountries);
-    countries = shuffledCountries.slice(0, 16);
+    countries = shuffledCountries.slice(0, pairsCount); // 난이도에 따라 쌍 개수 조정
     
     cards = [];
     for (var i = 0; i < countries.length; i++) {
@@ -440,6 +441,19 @@ window.addEventListener('load', function() {
 });
 
 initGame();
+
+// 난이도 버튼
+var difficultyButtons = document.querySelectorAll('.difficulty-btn');
+difficultyButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        difficultyButtons.forEach(function(b) {
+            b.classList.remove('active');
+        });
+        this.classList.add('active');
+        pairsCount = parseInt(this.getAttribute('data-pairs'));
+        initGame();
+    });
+});
 
 // 설정 관련
 var settingsBtn = document.getElementById('settingsBtn');
