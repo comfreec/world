@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>쭈니 국기 게임</title>
+    <link rel="stylesheet" href="quiz.css?v=9">
+</head>
+<body>
+    <div class="container">
+        <div class="header-with-settings">
+            <h1>🌍 쭈니 국기 게임</h1>
+            <button id="settingsBtn" class="settings-btn">⚙️</button>
+        </div>
+        
+        <div class="mode-toggle" style="display: none;">
+            <button id="choiceMode" class="mode-btn active">선택 모드</button>
+            <button id="inputMode" class="mode-btn">입력 모드 (2배)</button>
+        </div>
+        
+        <div class="score-board">
+            <div class="score">점수: <span id="score">0</span></div>
+            <div class="total">총 문제: <span id="total">0</span></div>
+        </div>
+
+        <div class="game-area">
+            <div class="flag-container">
+                <div id="flag" class="flag"></div>
+            </div>
+
+            <div id="choiceArea" class="choice-area">
+                <div class="options">
+                    <button class="option-btn" id="option1"></button>
+                    <button class="option-btn" id="option2"></button>
+                    <button class="option-btn" id="option3"></button>
+                    <button class="option-btn" id="option4"></button>
+                </div>
+            </div>
+
+            <div id="inputArea" class="input-area" style="display: none;">
+                <div class="canvas-controls">
+                    <input type="text" id="countryInput" class="country-input" placeholder="국가 이름을 입력하세요">
+                    <button id="submitBtn" class="submit-btn">확인</button>
+                </div>
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+        </div>
+
+        <button id="nextBtn" class="next-btn" style="display: none;">다음 문제</button>
+        <button id="restartBtn" class="restart-btn" style="display: none;">다시 시작</button>
+    </div>
+
+    <!-- 설정 모달 -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h2>⚙️ 설정</h2>
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="soundToggle" checked>
+                    <span>효과음</span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="voiceToggle" checked>
+                    <span>음성 안내</span>
+                </label>
+            </div>
+            <button id="closeSettingsBtn" class="btn">닫기</button>
+        </div>
+    </div>
+
+    <script src="quiz.js?v=14"></script>
+</body>
+</html>
