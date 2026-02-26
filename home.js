@@ -39,8 +39,28 @@ function displayAchievements() {
 
 // 설정 열기
 function openSettings() {
-    alert('설정 기능은 각 게임 내에서 사용할 수 있습니다.');
+    document.getElementById('settingsModal').classList.add('show');
 }
+
+// 설정 닫기
+document.addEventListener('DOMContentLoaded', function() {
+    const closeBtn = document.getElementById('closeSettingsBtn');
+    const modal = document.getElementById('settingsModal');
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            modal.classList.remove('show');
+        });
+    }
+    
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+    }
+});
 
 // 점수 공유하기
 function shareScore() {
