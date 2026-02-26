@@ -14,28 +14,31 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="/icon-192.png">
-    <link rel="stylesheet" href="./style-mobile.css?v=35">
+    <link rel="stylesheet" href="./style-mobile.css?v=36">
     <link rel="stylesheet" href="../achievements.css">
 </head>
 <body>
     <div class="container">
         <div class="header-row">
-            <button class="btn btn-small" onclick="location.href='../index.html'">🏠 홈</button>
-            <button id="restartBtn" class="btn btn-small">새 게임</button>
+            <button class="btn btn-small home-btn" onclick="location.href='../index.html'">🏠</button>
             
+            <h1>🌍 쭈니 국기 메모리 게임</h1>
+            
+            <button id="settingsBtn" class="btn btn-small settings-btn">⚙️</button>
+        </div>
+        
+        <div class="score-row">
             <div class="player-score player1">
                 <span class="player-name">아빠</span>
                 <span class="score-value" id="player1Score">0</span>
             </div>
             
-            <h1>🌍 쭈니 국기 메모리 게임</h1>
+            <button id="restartBtn" class="btn btn-restart">새 게임</button>
             
             <div class="player-score player2">
                 <span class="player-name">쭈니</span>
                 <span class="score-value" id="player2Score">0</span>
             </div>
-            
-            <button id="settingsBtn" class="btn btn-small">⚙️</button>
         </div>
         
         <div class="difficulty-selector">
