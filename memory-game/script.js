@@ -452,7 +452,6 @@ var settingsModal = document.getElementById('settingsModal');
 var closeSettingsBtn = document.getElementById('closeSettingsBtn');
 var soundToggle = document.getElementById('soundToggle');
 var voiceToggle = document.getElementById('voiceToggle');
-var selectedContinentText = document.getElementById('selectedContinentText');
 
 // 대륙 이름 매핑
 var continentNames = {
@@ -481,26 +480,16 @@ function loadSettings() {
 
 // 대륙 선택 UI 업데이트
 function updateContinentSelection() {
-    // 모든 대륙 선택 해제
-    document.querySelectorAll('.continent-area').forEach(function(el) {
-        el.classList.remove('selected');
-    });
-    document.querySelectorAll('.continent-btn').forEach(function(el) {
+    // 모든 대륙 카드 선택 해제
+    document.querySelectorAll('.continent-card').forEach(function(el) {
         el.classList.remove('active');
     });
     
-    // 선택된 대륙 표시
-    if (selectedContinent === 'all') {
-        document.querySelector('.continent-btn[data-continent="all"]').classList.add('active');
-    } else {
-        var continentEl = document.getElementById(selectedContinent);
-        if (continentEl) {
-            continentEl.classList.add('selected');
-        }
+    // 선택된 대륙 카드 활성화
+    var selectedCard = document.querySelector('.continent-card[data-continent="' + selectedContinent + '"]');
+    if (selectedCard) {
+        selectedCard.classList.add('active');
     }
-    
-    // 선택된 대륙 텍스트 업데이트
-    selectedContinentText.textContent = continentNames[selectedContinent] || '전체';
 }
 
 loadSettings();
@@ -526,22 +515,14 @@ voiceToggle.addEventListener('change', function() {
     saveSettings();
 });
 
-// 세계지도 대륙 클릭 이벤트
-document.querySelectorAll('.continent-area').forEach(function(continent) {
-    continent.addEventListener('click', function() {
+// 대륙 카드 클릭 이벤트
+document.querySelectorAll('.continent-card').forEach(function(card) {
+    card.addEventListener('click', function() {
         selectedContinent = this.getAttribute('data-continent');
         updateContinentSelection();
         saveSettings();
         initGame(); // 게임 재시작
     });
-});
-
-// 전체 버튼 클릭 이벤트
-document.querySelector('.continent-btn[data-continent="all"]').addEventListener('click', function() {
-    selectedContinent = 'all';
-    updateContinentSelection();
-    saveSettings();
-    initGame(); // 게임 재시작
 });
 
 settingsModal.addEventListener('click', function(e) {

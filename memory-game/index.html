@@ -14,7 +14,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="/icon-192.png">
-    <link rel="stylesheet" href="./style-mobile.css?v=41">
+    <link rel="stylesheet" href="./style-mobile.css?v=42">
     <link rel="stylesheet" href="../achievements.css">
 </head>
 <body>
@@ -87,37 +87,32 @@
                 </div>
                 <div class="setting-section">
                     <h3>🌍 대륙 선택</h3>
-                    <p class="continent-hint">지도에서 대륙을 클릭하세요</p>
-                    <div class="world-map-container">
-                        <div class="world-map-wrapper">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Equirectangular_projection_SW.jpg/1280px-Equirectangular_projection_SW.jpg" alt="세계지도" class="world-map-image">
-                            <svg viewBox="0 0 1000 500" class="world-map-overlay">
-                                <!-- 북아메리카 & 남아메리카 -->
-                                <path id="america" class="continent-area" data-continent="america"
-                                    d="M 150,80 L 200,60 L 240,70 L 265,95 L 270,130 L 265,165 L 250,195 L 240,220 L 230,245 L 220,265 L 205,280 L 185,290 L 165,295 L 155,305 L 150,325 L 148,350 L 150,375 L 155,395 L 158,410 L 153,420 L 140,418 L 125,410 L 115,395 L 110,375 L 105,350 L 100,325 L 98,300 L 100,275 L 105,250 L 115,225 L 130,200 L 145,180 L 160,165 L 172,150 L 178,130 L 180,110 L 182,95 Z" />
-                                
-                                <!-- 유럽 -->
-                                <path id="europe" class="continent-area" data-continent="europe"
-                                    d="M 480,110 L 510,100 L 540,105 L 560,120 L 570,140 L 568,160 L 555,175 L 535,185 L 510,188 L 485,183 L 465,170 L 458,150 L 462,130 L 472,115 Z" />
-                                
-                                <!-- 아프리카 -->
-                                <path id="africa" class="continent-area" data-continent="africa"
-                                    d="M 485,195 L 515,193 L 545,198 L 565,210 L 575,230 L 578,255 L 575,280 L 568,305 L 555,328 L 535,345 L 510,355 L 485,357 L 460,350 L 442,335 L 432,315 L 428,290 L 430,265 L 438,240 L 450,220 L 465,205 Z" />
-                                
-                                <!-- 아시아 -->
-                                <path id="asia" class="continent-area" data-continent="asia"
-                                    d="M 590,100 L 640,90 L 690,95 L 740,110 L 780,135 L 810,165 L 825,200 L 828,235 L 820,265 L 800,285 L 770,295 L 730,298 L 685,293 L 645,280 L 615,260 L 595,235 L 588,205 L 590,170 L 598,140 L 610,120 Z" />
-                                
-                                <!-- 오세아니아 (호주) -->
-                                <path id="oceania" class="continent-area" data-continent="oceania"
-                                    d="M 750,315 L 785,310 L 820,318 L 845,335 L 858,360 L 860,385 L 850,405 L 830,418 L 800,423 L 765,420 L 735,410 L 718,390 L 713,365 L 718,340 L 730,325 Z" />
-                            </svg>
-                        </div>
-                        <div class="continent-buttons">
-                            <button class="continent-btn active" data-continent="all">🌍 전체</button>
-                        </div>
+                    <div class="continent-grid">
+                        <button class="continent-card active" data-continent="all">
+                            <div class="continent-icon">🌍</div>
+                            <div class="continent-name">전체</div>
+                        </button>
+                        <button class="continent-card" data-continent="asia">
+                            <div class="continent-icon">🏯</div>
+                            <div class="continent-name">아시아</div>
+                        </button>
+                        <button class="continent-card" data-continent="europe">
+                            <div class="continent-icon">🏰</div>
+                            <div class="continent-name">유럽</div>
+                        </button>
+                        <button class="continent-card" data-continent="america">
+                            <div class="continent-icon">🗽</div>
+                            <div class="continent-name">아메리카</div>
+                        </button>
+                        <button class="continent-card" data-continent="africa">
+                            <div class="continent-icon">🦁</div>
+                            <div class="continent-name">아프리카</div>
+                        </button>
+                        <button class="continent-card" data-continent="oceania">
+                            <div class="continent-icon">🦘</div>
+                            <div class="continent-name">오세아니아</div>
+                        </button>
                     </div>
-                    <div class="selected-continent">선택: <span id="selectedContinentText">전체</span></div>
                 </div>
                 <button id="closeSettingsBtn" class="btn">닫기</button>
             </div>
@@ -125,6 +120,6 @@
     </div>
 
     <script src="../achievements.js"></script>
-    <script src="./script.js?v=38"></script>
+    <script src="./script.js?v=39"></script>
 </body>
 </html>
