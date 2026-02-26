@@ -452,7 +452,17 @@ var settingsModal = document.getElementById('settingsModal');
 var closeSettingsBtn = document.getElementById('closeSettingsBtn');
 var soundToggle = document.getElementById('soundToggle');
 var voiceToggle = document.getElementById('voiceToggle');
-var continentSelect = document.getElementById('continentSelect');
+var selectedContinentText = document.getElementById('selectedContinentText');
+
+// 대륙 이름 매핑
+var continentNames = {
+    'all': '전체',
+    'asia': '아시아',
+    'europe': '유럽',
+    'america': '아메리카',
+    'africa': '아프리카',
+    'oceania': '오세아니아'
+};
 
 function saveSettings() {
     localStorage.setItem('memorySoundEnabled', soundEnabled.toString());
@@ -465,8 +475,32 @@ function loadSettings() {
     var savedContinent = localStorage.getItem('selectedContinent');
     if (savedContinent) {
         selectedContinent = savedContinent;
-        continentSelect.value = selectedContinent;
+        updateContinentSelection();
     }
+}
+
+// 대륙 선택 UI 업데이트
+function updateContinentSelection() {
+    // 모든 대륙 선택 해제
+    document.querySelectorAll('.continent').forEach(function(el) {
+        el.classList.remove('selected');
+    });
+    document.querySelectorAll('.continent-btn').forEach(function(el) {
+        el.classList.remove('active');
+    });
+    
+    // 선택된 대륙 표시
+    if (selectedContinent === 'all') {
+        document.querySelector('.continent-btn[data-continent="all"]').classList.add('active');
+    } else {
+        var continentEl = document.getElementById(selectedContinent);
+        if (continentEl) {
+            continentEl.classList.add('selected');
+        }
+    }
+    
+    // 선택된 대륙 텍스트 업데이트
+    selectedContinentText.textContent = continentNames[selectedContinent] || '전체';
 }
 
 loadSettings();
@@ -474,7 +508,7 @@ loadSettings();
 settingsBtn.addEventListener('click', function() {
     soundToggle.checked = soundEnabled;
     voiceToggle.checked = voiceEnabled;
-    continentSelect.value = selectedContinent;
+    updateContinentSelection();
     settingsModal.classList.add('show');
 });
 
@@ -492,8 +526,20 @@ voiceToggle.addEventListener('change', function() {
     saveSettings();
 });
 
-continentSelect.addEventListener('change', function() {
-    selectedContinent = continentSelect.value;
+// 세계지도 대륙 클릭 이벤트
+document.querySelectorAll('.continent').forEach(function(continent) {
+    continent.addEventListener('click', function() {
+        selectedContinent = this.getAttribute('data-continent');
+        updateContinentSelection();
+        saveSettings();
+        initGame(); // 게임 재시작
+    });
+});
+
+// 전체 버튼 클릭 이벤트
+document.querySelector('.continent-btn[data-continent="all"]').addEventListener('click', function() {
+    selectedContinent = 'all';
+    updateContinentSelection();
     saveSettings();
     initGame(); // 게임 재시작
 });

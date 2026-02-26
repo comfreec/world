@@ -14,7 +14,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="/icon-192.png">
-    <link rel="stylesheet" href="./style-mobile.css?v=38">
+    <link rel="stylesheet" href="./style-mobile.css?v=39">
     <link rel="stylesheet" href="../achievements.css">
 </head>
 <body>
@@ -87,14 +87,41 @@
                 </div>
                 <div class="setting-section">
                     <h3>🌍 대륙 선택</h3>
-                    <select id="continentSelect" class="continent-select">
-                        <option value="all">전체 (모든 대륙)</option>
-                        <option value="asia">아시아</option>
-                        <option value="europe">유럽</option>
-                        <option value="america">아메리카</option>
-                        <option value="africa">아프리카</option>
-                        <option value="oceania">오세아니아</option>
-                    </select>
+                    <p class="continent-hint">지도에서 대륙을 클릭하세요</p>
+                    <div class="world-map-container">
+                        <svg viewBox="0 0 1000 500" class="world-map">
+                            <!-- 아메리카 -->
+                            <path id="america" class="continent" data-continent="america"
+                                d="M 150,100 L 180,80 L 220,90 L 240,120 L 250,180 L 240,240 L 220,280 L 200,320 L 180,360 L 160,380 L 140,360 L 120,320 L 110,280 L 100,240 L 90,200 L 100,160 L 120,120 Z" />
+                            
+                            <!-- 유럽 -->
+                            <path id="europe" class="continent" data-continent="europe"
+                                d="M 480,80 L 520,70 L 560,80 L 580,100 L 590,130 L 580,160 L 560,180 L 530,190 L 500,180 L 470,160 L 460,130 L 470,100 Z" />
+                            
+                            <!-- 아프리카 -->
+                            <path id="africa" class="continent" data-continent="africa"
+                                d="M 480,200 L 520,190 L 560,200 L 580,230 L 590,270 L 580,310 L 560,350 L 530,370 L 500,360 L 470,340 L 450,300 L 460,260 L 470,220 Z" />
+                            
+                            <!-- 아시아 -->
+                            <path id="asia" class="continent" data-continent="asia"
+                                d="M 620,90 L 700,80 L 780,90 L 840,110 L 880,140 L 900,180 L 890,220 L 860,250 L 820,270 L 760,280 L 700,270 L 650,250 L 620,220 L 600,180 L 610,140 L 620,110 Z" />
+                            
+                            <!-- 오세아니아 -->
+                            <path id="oceania" class="continent" data-continent="oceania"
+                                d="M 780,320 L 820,310 L 860,320 L 880,340 L 890,370 L 880,400 L 850,420 L 810,420 L 780,400 L 760,370 L 760,340 Z" />
+                            
+                            <!-- 대륙 라벨 -->
+                            <text x="170" y="220" class="continent-label">아메리카</text>
+                            <text x="510" y="130" class="continent-label">유럽</text>
+                            <text x="510" y="280" class="continent-label">아프리카</text>
+                            <text x="730" y="180" class="continent-label">아시아</text>
+                            <text x="820" y="370" class="continent-label">오세아니아</text>
+                        </svg>
+                        <div class="continent-buttons">
+                            <button class="continent-btn active" data-continent="all">🌍 전체</button>
+                        </div>
+                    </div>
+                    <div class="selected-continent">선택: <span id="selectedContinentText">전체</span></div>
                 </div>
                 <button id="closeSettingsBtn" class="btn">닫기</button>
             </div>
@@ -102,6 +129,6 @@
     </div>
 
     <script src="../achievements.js"></script>
-    <script src="./script.js?v=36"></script>
+    <script src="./script.js?v=37"></script>
 </body>
 </html>
