@@ -35,12 +35,38 @@ body {
 
 .header-row {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
     gap: 15px;
+    margin-bottom: 5px;
     flex-shrink: 0;
     min-height: 0;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.scores-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.home-btn {
+    font-size: 1.8em !important;
+    padding: 4px 10px !important;
+    line-height: 1;
 }
 
 .btn-small {
@@ -245,33 +271,41 @@ h1 {
 
 .player-score {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     padding: 8px 12px;
-    border-radius: 8px;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+    min-width: 60px;
+    border: 2px solid transparent;
+    transition: all 0.3s;
 }
 
 .player-score.player1 {
-    border: 2px solid #667eea;
+    border-color: #667eea;
+    background: linear-gradient(135deg, #e8ebff 0%, #d4d9ff 100%);
 }
 
 .player-score.player2 {
-    border: 2px solid #28a745;
+    border-color: #28a745;
+    background: linear-gradient(135deg, #e8f5e9 0%, #d4edda 100%);
 }
 
 .player-name {
-    font-size: 0.9em;
-    font-weight: 600;
+    font-size: 0.75em;
+    font-weight: 700;
     color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .score-value {
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: 1.5em;
+    font-weight: 900;
     color: #667eea;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .player-score.player2 .score-value {
@@ -350,17 +384,34 @@ h1 {
         min-height: 0;
     }
     
+    .left-section {
+        gap: 3px;
+    }
+    
+    .right-section {
+        gap: 2px;
+    }
+    
+    .scores-container {
+        gap: 3px;
+    }
+    
     h1 {
-        font-size: 1.4em;
+        font-size: 1.2em;
+    }
+    
+    .home-btn {
+        font-size: 1.2em !important;
+        padding: 2px 6px !important;
     }
     
     .btn-small {
-        font-size: 0.8em;
+        font-size: 0.7em;
         padding: 3px 6px;
     }
     
     .difficulty-select {
-        font-size: 0.7em;
+        font-size: 0.65em;
         padding: 3px 6px;
     }
     
@@ -372,15 +423,16 @@ h1 {
     }
     
     .player-score {
-        padding: 2px 4px;
+        padding: 3px 6px;
+        min-width: 40px;
     }
     
     .player-name {
-        font-size: 0.6em;
+        font-size: 0.5em;
     }
     
     .score-value {
-        font-size: 0.9em;
+        font-size: 1em;
     }
     
     .info-item {
@@ -469,17 +521,34 @@ h1 {
         min-height: 0;
     }
     
+    .left-section {
+        gap: 3px;
+    }
+    
+    .right-section {
+        gap: 2px;
+    }
+    
+    .scores-container {
+        gap: 3px;
+    }
+    
     h1 {
-        font-size: 1.4em;
+        font-size: 1.2em;
+    }
+    
+    .home-btn {
+        font-size: 1.2em !important;
+        padding: 2px 6px !important;
     }
     
     .btn-small {
-        font-size: 0.8em;
+        font-size: 0.7em;
         padding: 3px 6px;
     }
     
     .difficulty-select {
-        font-size: 0.7em;
+        font-size: 0.65em;
         padding: 3px 6px;
     }
     
@@ -491,15 +560,16 @@ h1 {
     }
     
     .player-score {
-        padding: 2px 4px;
+        padding: 3px 6px;
+        min-width: 40px;
     }
     
     .player-name {
-        font-size: 0.6em;
+        font-size: 0.5em;
     }
     
     .score-value {
-        font-size: 0.9em;
+        font-size: 1em;
     }
     
     .info-item {
