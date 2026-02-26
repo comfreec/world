@@ -181,6 +181,25 @@ body {
     box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
 }
 
+.share-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
+}
+
 .achievements-section {
     background: #f8f9fa;
     border-radius: 15px;

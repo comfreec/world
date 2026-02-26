@@ -372,9 +372,46 @@ function endGame() {
         '<div style="font-size:1.2em;margin-bottom:10px;">쭈니: ' + player2Score + '쌍 ' + 
         (isNewRecord2 ? '<span style="color:#28a745;">🎉 신기록!</span>' : '(최고: ' + player2HighScore + ')') + '</div>' +
         '<div style="margin-top:15px;">시간: ' + timeStr + '</div>' +
-        '<div>시도 횟수: ' + attempts + '회</div>';
+        '<div>시도 횟수: ' + attempts + '회</div>' +
+        '<button onclick="shareMemoryScore()" style="margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: bold;">📤 점수 공유하기</button>';
     
     winModal.classList.add('show');
+}
+
+// 메모리 게임 점수 공유
+function shareMemoryScore() {
+    var minutes = Math.floor(timer / 60);
+    var seconds = timer % 60;
+    var timeStr = minutes > 0 ? minutes + '분 ' + seconds + '초' : seconds + '초';
+    
+    var winner = '';
+    if (player1Score > player2Score) {
+        winner = '아빠 승리!';
+    } else if (player2Score > player1Score) {
+        winner = '쭈니 승리!';
+    } else {
+        winner = '무승부!';
+    }
+    
+    var shareText = '🌍 쭈니 국기 메모리 게임 🧠\n\n' +
+        winner + '\n' +
+        '아빠: ' + player1Score + '쌍 (최고: ' + player1HighScore + ')\n' +
+        '쭈니: ' + player2Score + '쌍 (최고: ' + player2HighScore + ')\n' +
+        '시간: ' + timeStr + '\n' +
+        '시도: ' + attempts + '회\n\n' +
+        '함께 국기를 배워요!';
+    
+    if (navigator.share) {
+        navigator.share({
+            title: '쭈니 국기 메모리 게임',
+            text: shareText,
+            url: window.location.origin + '/memory-game/'
+        }).catch(function() {});
+    } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareText + '\n' + window.location.origin + '/memory-game/').then(function() {
+            alert('점수가 클립보드에 복사되었습니다! 📋');
+        });
+    }
 }
 
 restartBtn.addEventListener('click', initGame);

@@ -597,6 +597,7 @@ function endGame() {
         <div style="font-size: 1.1em; margin-bottom: 10px;">정답률: ${accuracy}%</div>
         <div style="font-size: 1.1em; color: #667eea;">최고 점수: ${highScore}</div>
         ${isNewRecord ? '<div style="font-size: 1.3em; color: #28a745; margin-top: 10px;">🎉 신기록! 🎉</div>' : ''}
+        <button onclick="shareQuizScore()" style="margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: bold;">📤 점수 공유하기</button>
     `;
     feedbackElement.className = 'feedback';
     
@@ -606,6 +607,28 @@ function endGame() {
     
     nextBtn.style.display = 'none';
     restartBtn.style.display = 'block';
+}
+
+// 퀴즈 점수 공유
+function shareQuizScore() {
+    const accuracy = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
+    const shareText = `🌍 쭈니 국기 퀴즈 게임 🎯\n\n` +
+        `최종 점수: ${score}/${totalQuestions}\n` +
+        `정답률: ${accuracy}%\n` +
+        `최고 점수: ${highScore}점\n\n` +
+        `함께 국기를 배워요!`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: '쭈니 국기 퀴즈',
+            text: shareText,
+            url: window.location.origin + '/quiz.html'
+        }).catch(() => {});
+    } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareText + '\n' + window.location.origin + '/quiz.html').then(() => {
+            alert('점수가 클립보드에 복사되었습니다! 📋');
+        });
+    }
 }
 
 // 이벤트 리스너

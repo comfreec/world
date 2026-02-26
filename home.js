@@ -42,6 +42,91 @@ function openSettings() {
     alert('설정 기능은 각 게임 내에서 사용할 수 있습니다.');
 }
 
+// 점수 공유하기
+function shareScore() {
+    const stats = loadStats();
+    const quizHighScore = localStorage.getItem('quizHighScore') || 0;
+    const player1High = localStorage.getItem('memoryPlayer1HighScore') || 0;
+    const player2High = localStorage.getItem('memoryPlayer2HighScore') || 0;
+    
+    const shareText = `🌍 쭈니 국기 게임 🌍\n\n` +
+        `📊 내 기록:\n` +
+        `퀴즈 최고점수: ${quizHighScore}점\n` +
+        `메모리 게임: 아빠 ${player1High}쌍 / 쭈니 ${player2High}쌍\n` +
+        `총 게임 수: ${stats.totalGames}회\n` +
+        `총 정답 수: ${stats.totalCorrect}개\n\n` +
+        `함께 국기를 배워요! 🎯`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: '쭈니 국기 게임',
+            text: shareText,
+            url: window.location.origin
+        }).then(() => {
+            console.log('공유 성공');
+        }).catch((error) => {
+            console.log('공유 취소:', error);
+            fallbackShare(shareText);
+        });
+    } else {
+        fallbackShare(shareText);
+    }
+}
+
+// 공유 API가 없을 때 대체 방법
+function fallbackShare(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text + '\n' + window.location.origin).then(() => {
+            alert('점수가 클립보드에 복사되었습니다!\n친구들에게 공유해보세요 😊');
+        }).catch(() => {
+            showShareModal(text);
+        });
+    } else {
+        showShareModal(text);
+    }
+}
+
+// 공유 모달 표시
+function showShareModal(text) {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 400px;
+        width: 90%;
+    `;
+    
+    content.innerHTML = `
+        <h3 style="margin-bottom: 15px; color: #667eea;">내 점수 공유하기</h3>
+        <textarea readonly style="width: 100%; height: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: inherit; resize: none;">${text}\n${window.location.origin}</textarea>
+        <button onclick="this.parentElement.parentElement.remove()" style="width: 100%; margin-top: 15px; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px;">닫기</button>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
 // 전체화면 요청
 function requestFullscreen() {
     const elem = document.documentElement;
