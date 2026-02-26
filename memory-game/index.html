@@ -14,13 +14,20 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="/icon-192.png">
-    <link rel="stylesheet" href="./style-mobile.css?v=35">
+    <link rel="stylesheet" href="./style-mobile.css?v=37">
     <link rel="stylesheet" href="../achievements.css">
 </head>
 <body>
     <div class="container">
         <div class="header-row">
-            <button class="btn btn-small" onclick="location.href='../index.html'">🏠 홈</button>
+            <button class="btn btn-small" onclick="location.href='../index.html'">🏠</button>
+            
+            <select id="difficultySelect" class="difficulty-select">
+                <option value="8">쉬움</option>
+                <option value="12">보통</option>
+                <option value="16">어려움</option>
+            </select>
+            
             <button id="restartBtn" class="btn btn-small">새 게임</button>
             
             <div class="player-score player1">
@@ -38,12 +45,6 @@
             <button id="settingsBtn" class="btn btn-small">⚙️</button>
         </div>
         
-        <div class="difficulty-selector">
-            <button class="difficulty-btn active" data-pairs="8">쉬움 (8쌍)</button>
-            <button class="difficulty-btn" data-pairs="12">보통 (12쌍)</button>
-            <button class="difficulty-btn" data-pairs="16">어려움 (16쌍)</button>
-        </div>
-
         <div class="game-info">
             <div class="info-item">
                 시도: <span id="attempts">0</span>회
@@ -95,6 +96,6 @@
     </div>
 
     <script src="../achievements.js"></script>
-    <script src="./script.js?v=35"></script>
+    <script src="./script.js?v=36"></script>
 </body>
 </html>

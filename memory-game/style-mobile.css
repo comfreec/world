@@ -359,6 +359,11 @@ h1 {
         padding: 3px 6px;
     }
     
+    .difficulty-select {
+        font-size: 0.7em;
+        padding: 3px 6px;
+    }
+    
     .game-info {
         padding: 1px;
         margin-bottom: 1px;
@@ -470,6 +475,11 @@ h1 {
     
     .btn-small {
         font-size: 0.8em;
+        padding: 3px 6px;
+    }
+    
+    .difficulty-select {
+        font-size: 0.7em;
         padding: 3px 6px;
     }
     
@@ -746,33 +756,32 @@ h1 {
 }
 
 .difficulty-selector {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-bottom: 5px;
-    flex-shrink: 0;
+    display: none;
 }
 
 .difficulty-btn {
-    padding: 8px 16px;
-    background: white;
-    color: #667eea;
-    border: 2px solid #667eea;
-    border-radius: 8px;
-    cursor: pointer;
+    display: none;
+}
+
+.difficulty-select {
+    padding: 6px 10px;
     font-size: 0.85em;
     font-weight: bold;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    background: white;
+    color: #667eea;
+    cursor: pointer;
+    outline: none;
     transition: all 0.3s;
 }
 
-.difficulty-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+.difficulty-select:hover {
+    background: #f0f0ff;
 }
 
-.difficulty-btn.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+.difficulty-select:focus {
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
 }
 
 .setting-section {

@@ -439,17 +439,11 @@ window.addEventListener('load', function() {
 
 initGame();
 
-// 난이도 버튼
-var difficultyButtons = document.querySelectorAll('.difficulty-btn');
-difficultyButtons.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        difficultyButtons.forEach(function(b) {
-            b.classList.remove('active');
-        });
-        this.classList.add('active');
-        pairsCount = parseInt(this.getAttribute('data-pairs'));
-        initGame();
-    });
+// 난이도 선택 (콤보박스)
+var difficultySelect = document.getElementById('difficultySelect');
+difficultySelect.addEventListener('change', function() {
+    pairsCount = parseInt(this.value);
+    initGame();
 });
 
 // 설정 관련
