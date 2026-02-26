@@ -1,9 +1,11 @@
-const CACHE_NAME = 'flag-game-v2';
+const CACHE_NAME = 'flag-game-v3';
 const urlsToCache = [
   '/',
   '/index.html',
   '/quiz.html',
   '/stats.html',
+  '/about.html',
+  '/learn.html',
   '/memory-game/index.html',
   '/home.css',
   '/home.js',
@@ -11,6 +13,9 @@ const urlsToCache = [
   '/quiz.js',
   '/stats.css',
   '/stats.js',
+  '/about.css',
+  '/learn.css',
+  '/learn.js',
   '/achievements.css',
   '/achievements.js',
   '/memory-game/style-mobile.css',
