@@ -208,6 +208,8 @@ let soundEnabled = true; // 효과음 설정
 let voiceEnabled = true; // 음성 설정
 let gameStartCorrect = 0; // 게임 시작 시 정답 수
 let currentStreak = 0; // 현재 연속 정답
+let difficulty = 'easy'; // 난이도: easy(4개), medium(6개), hard(8개)
+let optionsCount = 4; // 선택지 개수
 
 // LocalStorage에서 데이터 로드
 function loadGameData() {
@@ -325,7 +327,11 @@ const optionButtons = [
     document.getElementById('option1'),
     document.getElementById('option2'),
     document.getElementById('option3'),
-    document.getElementById('option4')
+    document.getElementById('option4'),
+    document.getElementById('option5'),
+    document.getElementById('option6'),
+    document.getElementById('option7'),
+    document.getElementById('option8')
 ];
 const feedbackElement = document.getElementById('feedback');
 const scoreElement = document.getElementById('score');
@@ -338,6 +344,28 @@ const choiceArea = document.getElementById('choiceArea');
 const inputArea = document.getElementById('inputArea');
 const countryInput = document.getElementById('countryInput');
 const submitBtn = document.getElementById('submitBtn');
+
+// 난이도 버튼
+const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+difficultyButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+        difficultyButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        difficulty = this.dataset.difficulty;
+        
+        // 난이도에 따라 선택지 개수 설정
+        if (difficulty === 'easy') {
+            optionsCount = 4;
+        } else if (difficulty === 'medium') {
+            optionsCount = 6;
+        } else if (difficulty === 'hard') {
+            optionsCount = 8;
+        }
+        
+        // 게임 재시작
+        initGame();
+    });
+});
 
 // 게임 초기화
 function initGame() {
@@ -395,9 +423,9 @@ function loadQuestion() {
         return;
     }
 
-    // 오답 선택지 3개 생성
+    // 오답 선택지 생성 (난이도에 따라 개수 조정)
     const wrongOptions = [];
-    while (wrongOptions.length < 3) {
+    while (wrongOptions.length < optionsCount - 1) {
         const randomCountry = getRandomCountry([currentCountry, ...wrongOptions]);
         if (!wrongOptions.includes(randomCountry)) {
             wrongOptions.push(randomCountry);
@@ -408,32 +436,37 @@ function loadQuestion() {
     const allOptions = [currentCountry, ...wrongOptions];
     shuffleArray(allOptions);
 
-    // 버튼에 옵션 배치
+    // 버튼 표시/숨김 및 옵션 배치
     optionButtons.forEach((btn, index) => {
-        btn.blur();
-        btn.className = 'option-btn';
-        btn.disabled = false;
-        btn.removeAttribute('style');
-        btn.textContent = allOptions[index].name;
-        
-        let touchHandled = false;
-        
-        // 터치 이벤트 처리 - 즉시 반응
-        btn.ontouchstart = (e) => {
-            e.preventDefault();
-            if (!btn.disabled && !touchHandled) {
-                touchHandled = true;
-                checkAnswer(allOptions[index]);
-            }
-        };
-        
-        // 클릭 이벤트 (PC용)
-        btn.onclick = (e) => {
-            if (!touchHandled && !btn.disabled) {
-                checkAnswer(allOptions[index]);
-            }
-            touchHandled = false;
-        };
+        if (index < optionsCount) {
+            btn.style.display = 'block';
+            btn.blur();
+            btn.className = 'option-btn';
+            btn.disabled = false;
+            btn.removeAttribute('style');
+            btn.textContent = allOptions[index].name;
+            
+            let touchHandled = false;
+            
+            // 터치 이벤트 처리 - 즉시 반응
+            btn.ontouchstart = (e) => {
+                e.preventDefault();
+                if (!btn.disabled && !touchHandled) {
+                    touchHandled = true;
+                    checkAnswer(allOptions[index]);
+                }
+            };
+            
+            // 클릭 이벤트 (PC용)
+            btn.onclick = (e) => {
+                if (!touchHandled && !btn.disabled) {
+                    checkAnswer(allOptions[index]);
+                }
+                touchHandled = false;
+            };
+        } else {
+            btn.style.display = 'none';
+        }
     });
 }
 
