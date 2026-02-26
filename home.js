@@ -143,6 +143,17 @@ function requestFullscreen() {
 window.addEventListener('load', function() {
     loadHomeData();
     
+    // 로딩 화면 숨기기
+    setTimeout(function() {
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+            setTimeout(function() {
+                loadingScreen.remove();
+            }, 500);
+        }
+    }, 500);
+    
     // 첫 클릭 시 전체화면
     document.body.addEventListener('click', function() {
         if (!document.fullscreenElement && !document.webkitFullscreenElement) {

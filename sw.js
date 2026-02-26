@@ -1,13 +1,18 @@
-const CACHE_NAME = 'flag-game-v1';
+const CACHE_NAME = 'flag-game-v2';
 const urlsToCache = [
   '/',
   '/index.html',
   '/quiz.html',
+  '/stats.html',
   '/memory-game/index.html',
   '/home.css',
   '/home.js',
   '/quiz.css',
   '/quiz.js',
+  '/stats.css',
+  '/stats.js',
+  '/achievements.css',
+  '/achievements.js',
   '/memory-game/style-mobile.css',
   '/memory-game/script.js'
 ];
@@ -21,6 +26,7 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
   );
+  self.skipWaiting();
 });
 
 // 활성화 이벤트
@@ -37,6 +43,7 @@ self.addEventListener('activate', event => {
       );
     })
   );
+  self.clients.claim();
 });
 
 // Fetch 이벤트 - 네트워크 우선, 캐시 폴백
@@ -56,7 +63,18 @@ self.addEventListener('fetch', event => {
       })
       .catch(() => {
         // 네트워크 실패 시 캐시에서 가져오기
-        return caches.match(event.request);
+        return caches.match(event.request)
+          .then(response => {
+            if (response) {
+              return response;
+            }
+            // 국기 이미지는 오프라인 시 기본 응답
+            if (event.request.url.includes('flagcdn.com')) {
+              return new Response('🌍', {
+                headers: { 'Content-Type': 'text/plain' }
+              });
+            }
+          });
       })
   );
 });
