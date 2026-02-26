@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
+    <meta charset="UTF-8">
     <title>아이콘 생성기</title>
     <style>
         body {
@@ -8,37 +9,111 @@
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            font-family: Arial;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
         }
-        .icon {
-            width: 512px;
-            height: 512px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 300px;
-            border-radius: 100px;
+        h1 {
+            color: #667eea;
+        }
+        .preview {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             margin: 20px;
         }
-        .small {
-            width: 192px;
-            height: 192px;
-            font-size: 120px;
-            border-radius: 40px;
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin: 10px;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>앱 아이콘</h1>
-    <p>아래 아이콘을 스크린샷으로 저장하세요</p>
+    <h1>🌍 쭈니 국기 게임 아이콘 생성기</h1>
+    <p>아래 버튼을 클릭하여 앱 아이콘을 다운로드하세요</p>
     
-    <h2>512x512 (icon-512.png)</h2>
-    <div class="icon">🌍</div>
+    <div class="preview">
+        <h2>512x512 아이콘</h2>
+        <canvas id="canvas512" width="512" height="512"></canvas>
+        <div class="buttons">
+            <button onclick="downloadIcon(512)">512x512 다운로드</button>
+        </div>
+    </div>
     
-    <h2>192x192 (icon-192.png)</h2>
-    <div class="icon small">🌍</div>
+    <div class="preview">
+        <h2>192x192 아이콘</h2>
+        <canvas id="canvas192" width="192" height="192"></canvas>
+        <div class="buttons">
+            <button onclick="downloadIcon(192)">192x192 다운로드</button>
+        </div>
+    </div>
     
-    <p>스크린샷을 찍어서 icon-512.png와 icon-192.png로 저장하세요</p>
+    <script>
+        function drawIcon(size) {
+            const canvas = document.getElementById('canvas' + size);
+            const ctx = canvas.getContext('2d');
+            
+            // 그라디언트 배경
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(0.5, '#764ba2');
+            gradient.addColorStop(1, '#f093fb');
+            
+            // 둥근 사각형 배경
+            const radius = size * 0.2;
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.moveTo(radius, 0);
+            ctx.lineTo(size - radius, 0);
+            ctx.quadraticCurveTo(size, 0, size, radius);
+            ctx.lineTo(size, size - radius);
+            ctx.quadraticCurveTo(size, size, size - radius, size);
+            ctx.lineTo(radius, size);
+            ctx.quadraticCurveTo(0, size, 0, size - radius);
+            ctx.lineTo(0, radius);
+            ctx.quadraticCurveTo(0, 0, radius, 0);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 이모지 그리기
+            ctx.font = (size * 0.6) + 'px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🌍', size / 2, size / 2);
+        }
+        
+        function downloadIcon(size) {
+            const canvas = document.getElementById('canvas' + size);
+            const link = document.createElement('a');
+            link.download = 'icon-' + size + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // 페이지 로드 시 아이콘 그리기
+        drawIcon(512);
+        drawIcon(192);
+    </script>
 </body>
 </html>

@@ -32,6 +32,8 @@
                 <span class="player-name">쭈니</span>
                 <span class="score-value" id="player2Score">0</span>
             </div>
+            
+            <button id="settingsBtn" class="btn btn-small">⚙️</button>
         </div>
 
         <div class="game-info">
@@ -51,9 +53,29 @@
                 <button id="playAgainBtn" class="btn">다시 하기</button>
             </div>
         </div>
+        
+        <!-- 설정 모달 -->
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <h2>⚙️ 설정</h2>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="soundToggle" checked>
+                        <span>효과음</span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="voiceToggle" checked>
+                        <span>음성 안내</span>
+                    </label>
+                </div>
+                <button id="closeSettingsBtn" class="btn">닫기</button>
+            </div>
+        </div>
     </div>
 
     <script src="../achievements.js"></script>
-    <script src="./script.js?v=30"></script>
+    <script src="./script.js?v=31"></script>
 </body>
 </html>

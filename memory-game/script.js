@@ -78,6 +78,8 @@ var player1Score = 0;
 var player2Score = 0;
 var player1HighScore = 0;
 var player2HighScore = 0;
+var soundEnabled = true;
+var voiceEnabled = true;
 
 // LocalStorage에서 데이터 로드
 function loadMemoryGameData() {
@@ -85,6 +87,16 @@ function loadMemoryGameData() {
     var saved2 = localStorage.getItem('memoryPlayer2HighScore');
     if (saved1) player1HighScore = parseInt(saved1);
     if (saved2) player2HighScore = parseInt(saved2);
+    
+    var savedSound = localStorage.getItem('memorySoundEnabled');
+    if (savedSound !== null) {
+        soundEnabled = savedSound === 'true';
+    }
+    
+    var savedVoice = localStorage.getItem('memoryVoiceEnabled');
+    if (savedVoice !== null) {
+        voiceEnabled = savedVoice === 'true';
+    }
 }
 
 // LocalStorage에 데이터 저장
@@ -269,6 +281,8 @@ function checkMatch() {
 }
 
 function speakCountryName(countryName, rate) {
+    if (!voiceEnabled) return;
+    
     try {
         if ('speechSynthesis' in window) {
             var utterance = new SpeechSynthesisUtterance(countryName);
@@ -284,6 +298,8 @@ function speakCountryName(countryName, rate) {
 }
 
 function playCorrectSound() {
+    if (!soundEnabled) return;
+    
     try {
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
         var osc = audioContext.createOscillator();
@@ -300,6 +316,8 @@ function playCorrectSound() {
 }
 
 function playWrongSound() {
+    if (!soundEnabled) return;
+    
     try {
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
         var osc = audioContext.createOscillator();
@@ -385,3 +403,41 @@ window.addEventListener('load', function() {
 });
 
 initGame();
+
+// 설정 관련
+var settingsBtn = document.getElementById('settingsBtn');
+var settingsModal = document.getElementById('settingsModal');
+var closeSettingsBtn = document.getElementById('closeSettingsBtn');
+var soundToggle = document.getElementById('soundToggle');
+var voiceToggle = document.getElementById('voiceToggle');
+
+function saveSettings() {
+    localStorage.setItem('memorySoundEnabled', soundEnabled.toString());
+    localStorage.setItem('memoryVoiceEnabled', voiceEnabled.toString());
+}
+
+settingsBtn.addEventListener('click', function() {
+    soundToggle.checked = soundEnabled;
+    voiceToggle.checked = voiceEnabled;
+    settingsModal.classList.add('show');
+});
+
+closeSettingsBtn.addEventListener('click', function() {
+    settingsModal.classList.remove('show');
+});
+
+soundToggle.addEventListener('change', function() {
+    soundEnabled = soundToggle.checked;
+    saveSettings();
+});
+
+voiceToggle.addEventListener('change', function() {
+    voiceEnabled = voiceToggle.checked;
+    saveSettings();
+});
+
+settingsModal.addEventListener('click', function(e) {
+    if (e.target === settingsModal) {
+        settingsModal.classList.remove('show');
+    }
+});
