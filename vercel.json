@@ -6,12 +6,8 @@
       "dest": "/index.html"
     },
     {
-      "src": "/quiz.html",
-      "dest": "/quiz.html"
-    },
-    {
-      "src": "/icon-generator.html",
-      "dest": "/icon-generator.html"
+      "src": "/(.*\\.html)",
+      "dest": "/$1"
     },
     {
       "src": "/memory-game/(.*)",
