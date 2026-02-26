@@ -203,6 +203,23 @@ let currentCountry = null;
 let usedCountries = [];
 let correctCount = 0; // 연속 정답 카운트
 let isInputMode = false; // 입력 모드 여부
+let highScore = 0; // 최고 점수
+
+// LocalStorage에서 데이터 로드
+function loadGameData() {
+    const savedHighScore = localStorage.getItem('quizHighScore');
+    if (savedHighScore) {
+        highScore = parseInt(savedHighScore);
+    }
+}
+
+// LocalStorage에 데이터 저장
+function saveGameData() {
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('quizHighScore', highScore.toString());
+    }
+}
 
 // 효과음 생성 (Web Audio API 사용)
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -281,6 +298,7 @@ const submitBtn = document.getElementById('submitBtn');
 
 // 게임 초기화
 function initGame() {
+    loadGameData(); // 저장된 데이터 로드
     score = 0;
     totalQuestions = 0;
     usedCountries = [];
@@ -465,21 +483,29 @@ function checkAnswer(selectedCountry) {
         }
     } else {
         // 오답
+        totalQuestions++;
+        updateScore();
         playWrongSound(); // 오답 효과음
-        feedbackElement.textContent = `❌ 틀렸습니다! 다시 시도해보세요.`;
+        feedbackElement.textContent = `❌ 틀렸습니다! 정답은 ${currentCountry.name}입니다.`;
         feedbackElement.className = 'feedback wrong';
         
-        // 선택한 버튼만 표시
+        // 정답 국가 이름 말하기
+        speakCountryName(currentCountry.name);
+        
+        // 정답 버튼 표시
         optionButtons.forEach(btn => {
             if (btn.textContent === selectedCountry.name) {
                 btn.className = 'option-btn wrong';
             }
+            if (btn.textContent === currentCountry.name) {
+                btn.className = 'option-btn correct';
+            }
         });
         
-        // 즉시 같은 문제 다시 로드 (지연 없음)
+        // 1.5초 후 다음 문제로
         setTimeout(() => {
-            reloadSameQuestion();
-        }, 100);
+            loadQuestion();
+        }, 1500);
     }
 }
 
@@ -511,8 +537,20 @@ function showRewardScreen() {
 
 // 게임 종료
 function endGame() {
+    saveGameData(); // 게임 데이터 저장
+    
     flagElement.innerHTML = '<div style="font-size: 120px;">🏆</div>';
-    feedbackElement.textContent = `게임 종료! 최종 점수: ${score}/${totalQuestions}`;
+    
+    const accuracy = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
+    const isNewRecord = score === highScore && score > 0;
+    
+    feedbackElement.innerHTML = `
+        <div style="font-size: 1.5em; margin-bottom: 15px;">게임 종료!</div>
+        <div style="font-size: 1.2em; margin-bottom: 10px;">최종 점수: ${score}/${totalQuestions}</div>
+        <div style="font-size: 1.1em; margin-bottom: 10px;">정답률: ${accuracy}%</div>
+        <div style="font-size: 1.1em; color: #667eea;">최고 점수: ${highScore}</div>
+        ${isNewRecord ? '<div style="font-size: 1.3em; color: #28a745; margin-top: 10px;">🎉 신기록! 🎉</div>' : ''}
+    `;
     feedbackElement.className = 'feedback';
     
     optionButtons.forEach(btn => {

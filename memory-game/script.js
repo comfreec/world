@@ -76,6 +76,28 @@ var canFlip = true;
 var currentPlayer = 1;
 var player1Score = 0;
 var player2Score = 0;
+var player1HighScore = 0;
+var player2HighScore = 0;
+
+// LocalStorage에서 데이터 로드
+function loadMemoryGameData() {
+    var saved1 = localStorage.getItem('memoryPlayer1HighScore');
+    var saved2 = localStorage.getItem('memoryPlayer2HighScore');
+    if (saved1) player1HighScore = parseInt(saved1);
+    if (saved2) player2HighScore = parseInt(saved2);
+}
+
+// LocalStorage에 데이터 저장
+function saveMemoryGameData() {
+    if (player1Score > player1HighScore) {
+        player1HighScore = player1Score;
+        localStorage.setItem('memoryPlayer1HighScore', player1HighScore.toString());
+    }
+    if (player2Score > player2HighScore) {
+        player2HighScore = player2Score;
+        localStorage.setItem('memoryPlayer2HighScore', player2HighScore.toString());
+    }
+}
 
 var gameBoard = document.getElementById('gameBoard');
 var player1ScoreEl = document.getElementById('player1Score');
@@ -97,6 +119,8 @@ function shuffleArray(array) {
 }
 
 function initGame() {
+    loadMemoryGameData(); // 저장된 데이터 로드
+    
     var shuffledCountries = allCountries.slice();
     shuffleArray(shuffledCountries);
     countries = shuffledCountries.slice(0, 16);
@@ -278,12 +302,16 @@ function updateTimer() {
 
 function endGame() {
     clearInterval(timerInterval);
+    saveMemoryGameData(); // 게임 데이터 저장
     
     var minutes = Math.floor(timer / 60);
     var seconds = timer % 60;
     var timeStr = minutes > 0 ? minutes + '분 ' + seconds + '초' : seconds + '초';
     
     var winner = '';
+    var isNewRecord1 = player1Score === player1HighScore && player1Score > 0;
+    var isNewRecord2 = player2Score === player2HighScore && player2Score > 0;
+    
     if (player1Score > player2Score) {
         winner = '🏆 아빠 승리! 🏆';
     } else if (player2Score > player1Score) {
@@ -292,7 +320,13 @@ function endGame() {
         winner = '🤝 무승부! 🤝';
     }
     
-    winMessage.innerHTML = '<div style="font-size:1.8em;margin-bottom:20px;">' + winner + '</div><div style="font-size:1.2em;margin-bottom:10px;">아빠: ' + player1Score + '쌍</div><div style="font-size:1.2em;margin-bottom:10px;">쭈니: ' + player2Score + '쌍</div><div style="margin-top:15px;">시간: ' + timeStr + '</div><div>시도 횟수: ' + attempts + '회</div>';
+    winMessage.innerHTML = '<div style="font-size:1.8em;margin-bottom:20px;">' + winner + '</div>' +
+        '<div style="font-size:1.2em;margin-bottom:10px;">아빠: ' + player1Score + '쌍 ' + 
+        (isNewRecord1 ? '<span style="color:#28a745;">🎉 신기록!</span>' : '(최고: ' + player1HighScore + ')') + '</div>' +
+        '<div style="font-size:1.2em;margin-bottom:10px;">쭈니: ' + player2Score + '쌍 ' + 
+        (isNewRecord2 ? '<span style="color:#28a745;">🎉 신기록!</span>' : '(최고: ' + player2HighScore + ')') + '</div>' +
+        '<div style="margin-top:15px;">시간: ' + timeStr + '</div>' +
+        '<div>시도 횟수: ' + attempts + '회</div>';
     
     winModal.classList.add('show');
 }
