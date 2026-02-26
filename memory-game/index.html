@@ -14,7 +14,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="/icon-192.png">
-    <link rel="stylesheet" href="./style-mobile.css?v=28">
+    <link rel="stylesheet" href="./style-mobile.css?v=29">
     <link rel="stylesheet" href="../achievements.css">
 </head>
 <body>
@@ -78,12 +78,23 @@
                         <span>음성 안내</span>
                     </label>
                 </div>
+                <div class="setting-section">
+                    <h3>🌍 대륙 선택</h3>
+                    <select id="continentSelect" class="continent-select">
+                        <option value="all">전체 (모든 대륙)</option>
+                        <option value="asia">아시아</option>
+                        <option value="europe">유럽</option>
+                        <option value="america">아메리카</option>
+                        <option value="africa">아프리카</option>
+                        <option value="oceania">오세아니아</option>
+                    </select>
+                </div>
                 <button id="closeSettingsBtn" class="btn">닫기</button>
             </div>
         </div>
     </div>
 
     <script src="../achievements.js"></script>
-    <script src="./script.js?v=33"></script>
+    <script src="./script.js?v=34"></script>
 </body>
 </html>

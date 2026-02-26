@@ -774,3 +774,31 @@ h1 {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
 }
+
+.setting-section {
+    margin: 20px 0;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.setting-section h3 {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.continent-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+}
+
+.continent-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
