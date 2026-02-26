@@ -204,12 +204,24 @@ let usedCountries = [];
 let correctCount = 0; // 연속 정답 카운트
 let isInputMode = false; // 입력 모드 여부
 let highScore = 0; // 최고 점수
+let soundEnabled = true; // 효과음 설정
+let voiceEnabled = true; // 음성 설정
 
 // LocalStorage에서 데이터 로드
 function loadGameData() {
     const savedHighScore = localStorage.getItem('quizHighScore');
     if (savedHighScore) {
         highScore = parseInt(savedHighScore);
+    }
+    
+    const savedSound = localStorage.getItem('soundEnabled');
+    if (savedSound !== null) {
+        soundEnabled = savedSound === 'true';
+    }
+    
+    const savedVoice = localStorage.getItem('voiceEnabled');
+    if (savedVoice !== null) {
+        voiceEnabled = savedVoice === 'true';
     }
 }
 
@@ -221,10 +233,18 @@ function saveGameData() {
     }
 }
 
+// 설정 저장
+function saveSettings() {
+    localStorage.setItem('soundEnabled', soundEnabled.toString());
+    localStorage.setItem('voiceEnabled', voiceEnabled.toString());
+}
+
 // 효과음 생성 (Web Audio API 사용)
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 function playCorrectSound() {
+    if (!soundEnabled) return; // 효과음 꺼져있으면 재생 안함
+    
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
     
@@ -260,6 +280,8 @@ function playCorrectSound() {
 }
 
 function playWrongSound() {
+    if (!soundEnabled) return; // 효과음 꺼져있으면 재생 안함
+    
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
     
@@ -671,6 +693,8 @@ initGame();
 
 // 나라 이름 음성으로 말하기
 function speakCountryName(countryName) {
+    if (!voiceEnabled) return; // 음성 꺼져있으면 재생 안함
+    
     try {
         if ('speechSynthesis' in window) {
             const utterance = new SpeechSynthesisUtterance(countryName);
@@ -705,4 +729,41 @@ window.addEventListener('load', function() {
             requestFullscreen();
         }
     }, { once: true });
+});
+
+// 설정 모달 관련
+const settingsBtn = document.getElementById('settingsBtn');
+const settingsModal = document.getElementById('settingsModal');
+const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+const soundToggle = document.getElementById('soundToggle');
+const voiceToggle = document.getElementById('voiceToggle');
+
+// 설정 모달 열기
+settingsBtn.addEventListener('click', () => {
+    soundToggle.checked = soundEnabled;
+    voiceToggle.checked = voiceEnabled;
+    settingsModal.classList.add('show');
+});
+
+// 설정 모달 닫기
+closeSettingsBtn.addEventListener('click', () => {
+    settingsModal.classList.remove('show');
+});
+
+// 설정 변경
+soundToggle.addEventListener('change', () => {
+    soundEnabled = soundToggle.checked;
+    saveSettings();
+});
+
+voiceToggle.addEventListener('change', () => {
+    voiceEnabled = voiceToggle.checked;
+    saveSettings();
+});
+
+// 모달 배경 클릭 시 닫기
+settingsModal.addEventListener('click', (e) => {
+    if (e.target === settingsModal) {
+        settingsModal.classList.remove('show');
+    }
 });

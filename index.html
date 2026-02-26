@@ -7,11 +7,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>쭈니 국기 게임</title>
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
     <div class="container">
-        <h1>🌍 쭈니 국기 게임</h1>
+        <div class="header-with-settings">
+            <h1>🌍 쭈니 국기 게임</h1>
+            <button id="settingsBtn" class="settings-btn">⚙️</button>
+        </div>
         
         <div class="mode-toggle" style="display: none;">
             <button id="choiceMode" class="mode-btn active">선택 모드</button>
@@ -51,6 +54,26 @@
         <button id="restartBtn" class="restart-btn" style="display: none;">다시 시작</button>
     </div>
 
-    <script src="script.js?v=13"></script>
+    <!-- 설정 모달 -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h2>⚙️ 설정</h2>
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="soundToggle" checked>
+                    <span>효과음</span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="voiceToggle" checked>
+                    <span>음성 안내</span>
+                </label>
+            </div>
+            <button id="closeSettingsBtn" class="btn">닫기</button>
+        </div>
+    </div>
+
+    <script src="script.js?v=14"></script>
 </body>
 </html>
