@@ -1,3 +1,25 @@
 {
-  "version": 2
+  "version": 2,
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/quiz.html",
+      "dest": "/quiz.html"
+    },
+    {
+      "src": "/icon-generator.html",
+      "dest": "/icon-generator.html"
+    },
+    {
+      "src": "/memory-game/(.*)",
+      "dest": "/memory-game/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|json|ico))",
+      "dest": "/$1"
+    }
+  ]
 }
