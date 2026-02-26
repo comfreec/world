@@ -10,12 +10,31 @@ function loadHomeData() {
     document.getElementById('memoryPlayer1').textContent = `아빠 최고: ${player1High}`;
     document.getElementById('memoryPlayer2').textContent = `쭈니 최고: ${player2High}`;
     
-    // 전체 통계 (임시)
-    const totalGames = parseInt(localStorage.getItem('totalGames') || 0);
-    const totalScore = parseInt(quizHighScore) + parseInt(player1High) + parseInt(player2High);
+    // 전체 통계
+    const stats = loadStats();
+    document.getElementById('totalGames').textContent = stats.totalGames;
+    document.getElementById('totalScore').textContent = stats.totalCorrect;
     
-    document.getElementById('totalGames').textContent = totalGames;
-    document.getElementById('totalScore').textContent = totalScore;
+    // 성취 표시
+    displayAchievements();
+}
+
+// 성취 표시
+function displayAchievements() {
+    const unlocked = loadAchievements();
+    const achievementsList = document.getElementById('achievementsList');
+    
+    achievementsList.innerHTML = achievements.map(achievement => {
+        const isUnlocked = unlocked.includes(achievement.id);
+        return `
+            <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'}">
+                <div class="achievement-card-icon">${achievement.icon}</div>
+                <div class="achievement-card-name">${achievement.name}</div>
+                <div class="achievement-card-desc">${achievement.description}</div>
+                ${isUnlocked ? '<div class="achievement-badge">✓</div>' : ''}
+            </div>
+        `;
+    }).join('');
 }
 
 // 설정 열기

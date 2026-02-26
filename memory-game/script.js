@@ -97,6 +97,34 @@ function saveMemoryGameData() {
         player2HighScore = player2Score;
         localStorage.setItem('memoryPlayer2HighScore', player2HighScore.toString());
     }
+    
+    // 통계 업데이트
+    if (typeof loadStats === 'function') {
+        var stats = loadStats();
+        stats.totalGames = (stats.totalGames || 0) + 1;
+        stats.totalCorrect = (stats.totalCorrect || 0) + matchedPairs;
+        
+        // 완벽한 게임 체크 (16쌍 모두 맞춤)
+        if (matchedPairs === 16) {
+            stats.memoryPerfect = (stats.memoryPerfect || 0) + 1;
+        }
+        
+        // 최고 속도 기록
+        if (stats.fastestMemoryTime === 0 || timer < stats.fastestMemoryTime) {
+            stats.fastestMemoryTime = timer;
+        }
+        
+        // 학습한 국가 수 업데이트
+        var learnedSet = new Set(stats.learnedCountries || []);
+        for (var i = 0; i < countries.length; i++) {
+            learnedSet.add(countries[i].code);
+        }
+        stats.learnedCountries = Array.from(learnedSet);
+        stats.countriesLearned = stats.learnedCountries.length;
+        
+        saveStats(stats);
+        checkAchievements(stats);
+    }
 }
 
 var gameBoard = document.getElementById('gameBoard');

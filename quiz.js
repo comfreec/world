@@ -206,6 +206,8 @@ let isInputMode = false; // 입력 모드 여부
 let highScore = 0; // 최고 점수
 let soundEnabled = true; // 효과음 설정
 let voiceEnabled = true; // 음성 설정
+let gameStartCorrect = 0; // 게임 시작 시 정답 수
+let currentStreak = 0; // 현재 연속 정답
 
 // LocalStorage에서 데이터 로드
 function loadGameData() {
@@ -231,6 +233,25 @@ function saveGameData() {
         highScore = score;
         localStorage.setItem('quizHighScore', highScore.toString());
     }
+    
+    // 통계 업데이트
+    const stats = loadStats();
+    stats.totalGames = (stats.totalGames || 0) + 1;
+    stats.totalCorrect = (stats.totalCorrect || 0) + (score - gameStartCorrect);
+    stats.quizHighScore = highScore;
+    
+    if (currentStreak > (stats.maxStreak || 0)) {
+        stats.maxStreak = currentStreak;
+    }
+    
+    // 학습한 국가 수 업데이트
+    const learnedSet = new Set(stats.learnedCountries || []);
+    usedCountries.forEach(country => learnedSet.add(country.code));
+    stats.learnedCountries = Array.from(learnedSet);
+    stats.countriesLearned = stats.learnedCountries.length;
+    
+    saveStats(stats);
+    checkAchievements(stats);
 }
 
 // 설정 저장
@@ -321,10 +342,12 @@ const submitBtn = document.getElementById('submitBtn');
 // 게임 초기화
 function initGame() {
     loadGameData(); // 저장된 데이터 로드
+    gameStartCorrect = score; // 게임 시작 시 점수 기록
     score = 0;
     totalQuestions = 0;
     usedCountries = [];
     correctCount = 0; // 정답 카운트 초기화
+    currentStreak = 0; // 연속 정답 초기화
     updateScore();
     nextBtn.style.display = 'none';
     restartBtn.style.display = 'none';
@@ -474,6 +497,7 @@ function checkAnswer(selectedCountry) {
         totalQuestions++;
         score++;
         correctCount++; // 정답 카운트 증가
+        currentStreak++; // 연속 정답 증가
         updateScore();
         playCorrectSound(); // 정답 효과음
         speakCountryName(currentCountry.name); // 나라 이름 말하기
@@ -506,6 +530,7 @@ function checkAnswer(selectedCountry) {
     } else {
         // 오답
         totalQuestions++;
+        currentStreak = 0; // 연속 정답 초기화
         updateScore();
         playWrongSound(); // 오답 효과음
         feedbackElement.textContent = `❌ 틀렸습니다! 정답은 ${currentCountry.name}입니다.`;
