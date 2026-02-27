@@ -212,6 +212,7 @@ let voiceEnabled = appSettings.voiceEnabled; // 음성 설정
 let gameStartCorrect = 0; // 게임 시작 시 정답 수
 let currentStreak = 0; // 현재 연속 정답
 let optionsCount = 4; // 선택지 개수 (고정)
+let maxQuestions = 20; // 최대 문제 수 (기본값: 보통)
 
 // LocalStorage에서 데이터 로드
 function loadGameData() {
@@ -370,8 +371,8 @@ function getRandomCountry(exclude = []) {
 
 // 문제 로드
 function loadQuestion() {
-    // 모든 국가를 다 사용했으면 게임 종료
-    if (usedCountries.length === countries.length) {
+    // 설정된 문제 수에 도달하면 게임 종료
+    if (totalQuestions >= maxQuestions) {
         endGame();
         return;
     }
@@ -596,9 +597,11 @@ function endGame() {
     
     const accuracy = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
     const isNewRecord = score === highScore && score > 0;
+    const difficultyText = maxQuestions === 10 ? '쉬움' : maxQuestions === 20 ? '보통' : maxQuestions === 30 ? '어려움' : '도전';
     
     feedbackElement.innerHTML = `
-        <div style="font-size: 1.5em; margin-bottom: 15px;">게임 종료!</div>
+        <div style="font-size: 1.5em; margin-bottom: 15px;">게임 완료! 🎉</div>
+        <div style="font-size: 1em; margin-bottom: 10px; color: #667eea;">난이도: ${difficultyText} (${maxQuestions}문제)</div>
         <div style="font-size: 1.2em; margin-bottom: 10px;">최종 점수: ${score}/${totalQuestions}</div>
         <div style="font-size: 1.1em; margin-bottom: 10px;">정답률: ${accuracy}%</div>
         <div style="font-size: 1.1em; color: #667eea;">최고 점수: ${highScore}</div>
@@ -618,7 +621,9 @@ function endGame() {
 // 퀴즈 점수 공유
 function shareQuizScore() {
     const accuracy = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
+    const difficultyText = maxQuestions === 10 ? '쉬움' : maxQuestions === 20 ? '보통' : maxQuestions === 30 ? '어려움' : '도전';
     const shareText = `🌍 세계 국기 마스터 - 퀴즈 🎯\n\n` +
+        `난이도: ${difficultyText} (${maxQuestions}문제)\n` +
         `최종 점수: ${score}/${totalQuestions}\n` +
         `정답률: ${accuracy}%\n` +
         `최고 점수: ${highScore}점\n\n` +
@@ -642,6 +647,13 @@ nextBtn.addEventListener('click', loadQuestion);
 restartBtn.addEventListener('click', () => {
     optionButtons.forEach(btn => btn.style.display = 'block');
     restartBtn.textContent = '다시 시작';
+    initGame();
+});
+
+// 난이도 선택
+const difficultySelect = document.getElementById('difficultySelect');
+difficultySelect.addEventListener('change', () => {
+    maxQuestions = parseInt(difficultySelect.value);
     initGame();
 });
 

@@ -27,6 +27,16 @@
             <button id="inputMode" class="mode-btn">입력 모드 (2배)</button>
         </div>
         
+        <div class="difficulty-selector">
+            <label for="difficultySelect">난이도:</label>
+            <select id="difficultySelect" class="difficulty-select">
+                <option value="10">쉬움 (10문제)</option>
+                <option value="20" selected>보통 (20문제)</option>
+                <option value="30">어려움 (30문제)</option>
+                <option value="50">도전 (50문제)</option>
+            </select>
+        </div>
+        
         <div class="score-board">
             <div class="score">점수: <span id="score">0</span></div>
             <div class="total">총 문제: <span id="total">0</span></div>
