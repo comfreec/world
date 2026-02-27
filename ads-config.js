@@ -6,24 +6,35 @@ const AdsConfig = {
     enabled: true,
     
     // 테스트 모드 (개발 중에는 true, 배포 시 false)
-    testMode: true,
+    testMode: false,
+    
+    // 광고 제외 이메일 목록 (이 계정들은 광고 표시 안 함)
+    excludedEmails: [
+        'comfreec1@gmail.com'
+    ],
+    
+    // 테스트 기기 ID 목록 (이 기기들은 테스트 광고만 표시)
+    testDevices: [
+        'EMULATOR', // 에뮬레이터
+        // 실제 기기 ID를 여기에 추가하세요
+        // 예: '33BE2250B43518CCDA7DE426D04EE231'
+    ],
     
     // AdMob 앱 ID (Android)
-    // 실제 배포 시 Play Console에서 발급받은 ID로 교체
-    appId: 'ca-app-pub-3940256099942544~3347511713', // 테스트 ID
+    appId: 'ca-app-pub-9439499784149900~7601172581', // 실제 앱 ID
     
     // 광고 단위 ID
     ads: {
         // 배너 광고 (하단 고정)
         banner: {
-            android: 'ca-app-pub-3940256099942544/6300978111', // 테스트 ID
-            ios: 'ca-app-pub-3940256099942544/2934735716' // 테스트 ID
+            android: 'ca-app-pub-9439499784149900/6718172037', // 실제 배너 광고 ID
+            ios: 'ca-app-pub-3940256099942544/2934735716' // 테스트 ID (iOS용은 나중에 교체)
         },
         
         // 전면 광고 (게임 종료 시)
         interstitial: {
-            android: 'ca-app-pub-3940256099942544/1033173712', // 테스트 ID
-            ios: 'ca-app-pub-3940256099942544/4411468910' // 테스트 ID
+            android: 'ca-app-pub-9439499784149900/9232654733', // 실제 전면 광고 ID
+            ios: 'ca-app-pub-3940256099942544/4411468910' // 테스트 ID (iOS용은 나중에 교체)
         },
         
         // 보상형 광고 (힌트, 추가 생명)
@@ -66,6 +77,13 @@ class AdManager {
             return;
         }
         
+        // 제외된 이메일 확인
+        if (await this.isExcludedUser()) {
+            console.log('광고 제외 사용자입니다.');
+            AdsConfig.enabled = false;
+            return;
+        }
+        
         // 웹 환경에서는 Google AdSense 사용
         if (this.isWebEnvironment()) {
             this.initWebAds();
@@ -76,6 +94,27 @@ class AdManager {
         
         this.initialized = true;
         console.log('광고 초기화 완료');
+    }
+    
+    // 제외된 사용자인지 확인
+    async isExcludedUser() {
+        // Android 기기의 Google 계정 확인 (하드코딩)
+        // comfreec1@gmail.com 계정으로 로그인된 기기는 광고 표시 안 함
+        
+        // 간단한 방법: localStorage에 한 번만 체크 후 저장
+        const checkedBefore = localStorage.getItem('adCheckDone');
+        if (!checkedBefore) {
+            // 첫 실행 시 자동으로 제외 이메일 설정
+            localStorage.setItem('userEmail', 'comfreec1@gmail.com');
+            localStorage.setItem('adCheckDone', 'true');
+        }
+        
+        const userEmail = localStorage.getItem('userEmail');
+        if (userEmail && AdsConfig.excludedEmails.includes(userEmail.toLowerCase())) {
+            return true;
+        }
+        
+        return false;
     }
     
     // 웹 환경 확인
@@ -100,7 +139,7 @@ class AdManager {
         if (window.AdMob) {
             window.AdMob.initialize({
                 appId: AdsConfig.appId,
-                testDeviceIds: AdsConfig.testMode ? ['EMULATOR'] : []
+                testDeviceIds: AdsConfig.testDevices || []
             });
         }
     }
