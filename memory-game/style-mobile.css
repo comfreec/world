@@ -64,9 +64,10 @@ body {
 }
 
 .home-btn {
-    font-size: 1.8em !important;
-    padding: 4px 10px !important;
+    font-size: 2.5em !important;
+    padding: 8px 16px !important;
     line-height: 1;
+    min-width: 60px;
 }
 
 .btn-small {
@@ -401,8 +402,9 @@ h1 {
     }
     
     .home-btn {
-        font-size: 1.2em !important;
-        padding: 2px 6px !important;
+        font-size: 2em !important;
+        padding: 6px 12px !important;
+        min-width: 50px;
     }
     
     .btn-small {
@@ -538,8 +540,9 @@ h1 {
     }
     
     .home-btn {
-        font-size: 1.2em !important;
-        padding: 2px 6px !important;
+        font-size: 2em !important;
+        padding: 6px 12px !important;
+        min-width: 50px;
     }
     
     .btn-small {
