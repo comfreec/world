@@ -2,25 +2,28 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아이콘 생성기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이콘 생성기 - 세계 국기 마스터</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
             padding: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
         h1 {
-            color: #667eea;
+            color: white;
+            margin-bottom: 30px;
         }
-        .preview {
+        .canvas-container {
             background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            margin: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         canvas {
             border: 2px solid #ddd;
@@ -28,11 +31,11 @@
             margin: 10px;
         }
         button {
-            padding: 12px 24px;
-            font-size: 16px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
+            padding: 15px 30px;
+            font-size: 16px;
             border-radius: 8px;
             cursor: pointer;
             margin: 10px;
@@ -40,80 +43,169 @@
         }
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .buttons {
+        .preview {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .preview-item {
+            text-align: center;
+        }
+        .preview-item p {
+            margin-top: 10px;
+            color: #666;
+            font-weight: bold;
+        }
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            color: #667eea;
         }
     </style>
 </head>
 <body>
+    <button class="back-btn" onclick="location.href='index.html'">← 뒤로</button>
+    
     <h1>🌍 세계 국기 마스터 아이콘 생성기</h1>
-    <p>아래 버튼을 클릭하여 앱 아이콘을 다운로드하세요</p>
     
-    <div class="preview">
-        <h2>512x512 아이콘</h2>
-        <canvas id="canvas512" width="512" height="512"></canvas>
-        <div class="buttons">
-            <button onclick="downloadIcon(512)">512x512 다운로드</button>
+    <div class="canvas-container">
+        <p style="color: #666; margin-bottom: 20px;">아래 버튼을 클릭하여 앱 아이콘을 다운로드하세요</p>
+        
+        <div class="preview">
+            <div class="preview-item">
+                <canvas id="icon192" width="192" height="192"></canvas>
+                <p>192x192</p>
+                <button onclick="downloadIcon(192)">다운로드</button>
+            </div>
+            <div class="preview-item">
+                <canvas id="icon512" width="512" height="512"></canvas>
+                <p>512x512</p>
+                <button onclick="downloadIcon(512)">다운로드</button>
+            </div>
         </div>
     </div>
-    
-    <div class="preview">
-        <h2>192x192 아이콘</h2>
-        <canvas id="canvas192" width="192" height="192"></canvas>
-        <div class="buttons">
-            <button onclick="downloadIcon(192)">192x192 다운로드</button>
-        </div>
-    </div>
-    
+
     <script>
         function drawIcon(size) {
-            const canvas = document.getElementById('canvas' + size);
+            const canvas = document.getElementById(`icon${size}`);
             const ctx = canvas.getContext('2d');
             
-            // 그라디언트 배경
+            // 배경 그라디언트
             const gradient = ctx.createLinearGradient(0, 0, size, size);
             gradient.addColorStop(0, '#667eea');
-            gradient.addColorStop(0.5, '#764ba2');
-            gradient.addColorStop(1, '#f093fb');
-            
-            // 둥근 사각형 배경
-            const radius = size * 0.2;
+            gradient.addColorStop(1, '#764ba2');
             ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // 지구본 그리기
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radius = size * 0.35;
+            
+            // 지구본 외곽선 (초록색)
             ctx.beginPath();
-            ctx.moveTo(radius, 0);
-            ctx.lineTo(size - radius, 0);
-            ctx.quadraticCurveTo(size, 0, size, radius);
-            ctx.lineTo(size, size - radius);
-            ctx.quadraticCurveTo(size, size, size - radius, size);
-            ctx.lineTo(radius, size);
-            ctx.quadraticCurveTo(0, size, 0, size - radius);
-            ctx.lineTo(0, radius);
-            ctx.quadraticCurveTo(0, 0, radius, 0);
-            ctx.closePath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#4CAF50';
             ctx.fill();
             
-            // 이모지 그리기
-            ctx.font = (size * 0.6) + 'px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('🌍', size / 2, size / 2);
+            // 바다 (파란색 원)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius * 0.95, 0, Math.PI * 2);
+            ctx.fillStyle = '#2196F3';
+            ctx.fill();
+            
+            // 대륙 (간단한 형태)
+            ctx.fillStyle = '#4CAF50';
+            
+            // 대륙 1 (왼쪽 상단)
+            ctx.beginPath();
+            ctx.ellipse(centerX - radius * 0.4, centerY - radius * 0.3, radius * 0.3, radius * 0.25, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 대륙 2 (오른쪽)
+            ctx.beginPath();
+            ctx.ellipse(centerX + radius * 0.3, centerY, radius * 0.35, radius * 0.4, Math.PI / 6, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 대륙 3 (하단)
+            ctx.beginPath();
+            ctx.ellipse(centerX - radius * 0.1, centerY + radius * 0.4, radius * 0.25, radius * 0.2, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 경도선
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = size * 0.01;
+            
+            for (let i = -2; i <= 2; i++) {
+                ctx.beginPath();
+                ctx.ellipse(centerX, centerY, radius * 0.95 * Math.abs(Math.cos(i * Math.PI / 6)), radius * 0.95, 0, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // 위도선
+            for (let i = -1; i <= 1; i++) {
+                const y = centerY + i * radius * 0.5;
+                const width = Math.sqrt(radius * radius - (i * radius * 0.5) * (i * radius * 0.5)) * 0.95;
+                ctx.beginPath();
+                ctx.ellipse(centerX, y, width, radius * 0.15, 0, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // 국기 아이콘 (작은 깃발들)
+            const flagSize = size * 0.08;
+            const flagPositions = [
+                {x: centerX - radius * 0.6, y: centerY - radius * 0.5},
+                {x: centerX + radius * 0.5, y: centerY - radius * 0.4},
+                {x: centerX + radius * 0.3, y: centerY + radius * 0.5}
+            ];
+            
+            flagPositions.forEach(pos => {
+                // 깃대
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = size * 0.008;
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                ctx.lineTo(pos.x, pos.y + flagSize * 1.5);
+                ctx.stroke();
+                
+                // 깃발
+                ctx.fillStyle = '#FF5252';
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                ctx.lineTo(pos.x + flagSize, pos.y + flagSize * 0.3);
+                ctx.lineTo(pos.x, pos.y + flagSize * 0.6);
+                ctx.fill();
+            });
+            
+            // 텍스트 (512 사이즈에서만)
+            if (size >= 512) {
+                ctx.fillStyle = 'white';
+                ctx.font = `bold ${size * 0.08}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.fillText('국기', centerX, size * 0.88);
+                ctx.font = `bold ${size * 0.06}px Arial`;
+                ctx.fillText('마스터', centerX, size * 0.95);
+            }
         }
         
         function downloadIcon(size) {
-            const canvas = document.getElementById('canvas' + size);
+            const canvas = document.getElementById(`icon${size}`);
             const link = document.createElement('a');
-            link.download = 'icon-' + size + '.png';
-            link.href = canvas.toDataURL('image/png');
+            link.download = `icon-${size}.png`;
+            link.href = canvas.toDataURL();
             link.click();
         }
         
         // 페이지 로드 시 아이콘 그리기
-        drawIcon(512);
-        drawIcon(192);
+        window.onload = function() {
+            drawIcon(192);
+            drawIcon(512);
+        };
     </script>
 </body>
 </html>
