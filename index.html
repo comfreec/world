@@ -150,17 +150,23 @@
     <script src="achievements.js?v=2"></script>
     <script src="home.js?v=5"></script>
     <script>
-        // Service Worker 등록
+        // Service Worker 등록 (임시 비활성화)
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('Service Worker 등록 성공:', registration);
-                    })
-                    .catch(error => {
-                        console.log('Service Worker 등록 실패:', error);
-                    });
+            // 기존 Service Worker 제거
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                }
             });
+            
+            // 캐시 삭제
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) {
+                        caches.delete(name);
+                    }
+                });
+            }
         }
         
         // PWA 설치 프롬프트
