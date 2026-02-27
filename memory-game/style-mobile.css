@@ -71,8 +71,8 @@ body {
 }
 
 .btn-small {
-    padding: 8px 16px;
-    font-size: 0.9em;
+    padding: 10px 20px;
+    font-size: 1.2em;
 }
 
 h1 {
@@ -350,7 +350,7 @@ h1 {
     }
     
     .btn-small {
-        font-size: 2em !important;
+        font-size: 2.5em !important;
     }
 }
 
@@ -408,8 +408,8 @@ h1 {
     }
     
     .btn-small {
-        font-size: 0.7em;
-        padding: 3px 6px;
+        font-size: 1em;
+        padding: 6px 12px;
     }
     
     .difficulty-select {
@@ -546,8 +546,8 @@ h1 {
     }
     
     .btn-small {
-        font-size: 0.7em;
-        padding: 3px 6px;
+        font-size: 1em;
+        padding: 6px 12px;
     }
     
     .difficulty-select {
@@ -650,8 +650,8 @@ h1 {
     }
     
     .btn-small {
-        font-size: 0.5em;
-        padding: 2px 4px;
+        font-size: 0.8em;
+        padding: 4px 8px;
     }
     
     .game-info {
@@ -742,8 +742,8 @@ h1 {
     }
     
     .btn-small {
-        font-size: 0.9em;
-        padding: 3px 8px;
+        font-size: 1.5em;
+        padding: 6px 12px;
     }
     
     .game-info {
