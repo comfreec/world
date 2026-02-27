@@ -87,6 +87,39 @@ h1 {
     background-clip: text;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.flag-icon {
+    display: inline-block;
+    width: 1em;
+    height: 0.75em;
+    position: relative;
+    background: linear-gradient(135deg, #ff4757 0%, #ff6348 100%);
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4);
+    animation: wave 2s ease-in-out infinite;
+    transform-origin: left center;
+}
+
+.flag-icon::before {
+    content: '';
+    position: absolute;
+    left: -3px;
+    top: 0;
+    width: 3px;
+    height: 1.2em;
+    background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+    border-radius: 2px;
+}
+
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-3deg); }
+    75% { transform: rotate(3deg); }
 }
 
 .game-info {
@@ -400,6 +433,15 @@ h1 {
     
     h1 {
         font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .flag-icon {
+        width: 1em;
+        height: 0.75em;
     }
     
     .home-btn {
@@ -539,6 +581,15 @@ h1 {
     
     h1 {
         font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .flag-icon {
+        width: 1em;
+        height: 0.75em;
     }
     
     .home-btn {
@@ -650,6 +701,15 @@ h1 {
     
     h1 {
         font-size: 1.8em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .flag-icon {
+        width: 1em;
+        height: 0.75em;
     }
     
     .btn-small {
@@ -742,6 +802,15 @@ h1 {
     
     h1 {
         font-size: 1.8em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .flag-icon {
+        width: 1em;
+        height: 0.75em;
     }
     
     .btn-small {
