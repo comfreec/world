@@ -618,7 +618,7 @@ function endGame() {
 // 퀴즈 점수 공유
 function shareQuizScore() {
     const accuracy = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
-    const shareText = `🌍 쭈니 국기 퀴즈 게임 🎯\n\n` +
+    const shareText = `🌍 세계 국기 마스터 - 퀴즈 🎯\n\n` +
         `최종 점수: ${score}/${totalQuestions}\n` +
         `정답률: ${accuracy}%\n` +
         `최고 점수: ${highScore}점\n\n` +
@@ -626,7 +626,7 @@ function shareQuizScore() {
     
     if (navigator.share) {
         navigator.share({
-            title: '쭈니 국기 퀴즈',
+            title: '세계 국기 마스터 - 퀴즈',
             text: shareText,
             url: window.location.origin + '/quiz.html'
         }).catch(() => {});

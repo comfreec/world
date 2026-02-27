@@ -69,7 +69,7 @@ function shareScore() {
     const player1High = localStorage.getItem('memoryPlayer1HighScore') || 0;
     const player2High = localStorage.getItem('memoryPlayer2HighScore') || 0;
     
-    const shareText = `🌍 쭈니 국기 게임 🌍\n\n` +
+    const shareText = `🌍 세계 국기 마스터 🌍\n\n` +
         `📊 내 기록:\n` +
         `퀴즈 최고점수: ${quizHighScore}점\n` +
         `메모리 게임: 아빠 ${player1High}쌍 / 쭈니 ${player2High}쌍\n` +
@@ -79,7 +79,7 @@ function shareScore() {
     
     if (navigator.share) {
         navigator.share({
-            title: '쭈니 국기 게임',
+            title: '세계 국기 마스터',
             text: shareText,
             url: window.location.origin
         }).then(() => {
