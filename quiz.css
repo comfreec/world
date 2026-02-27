@@ -514,14 +514,6 @@ h1 {
     color: #333;
 }
 
-.difficulty-selector {
-    display: none;
-}
-
-.difficulty-btn {
-    display: none;
-}
-
 @media (max-width: 600px) {
     .container {
         padding: 20px;
