@@ -31,6 +31,41 @@ h1 {
     font-size: 2em;
 }
 
+.game-mode-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #fff3cd;
+    border-radius: 10px;
+    border: 2px solid #ffc107;
+}
+
+.game-mode-selector label {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #856404;
+}
+
+.game-mode-select {
+    padding: 8px 15px;
+    font-size: 1em;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    background: white;
+    color: #856404;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+}
+
+.game-mode-select:focus {
+    border-color: #ff9800;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+}
+
 .difficulty-selector {
     display: flex;
     align-items: center;
@@ -72,15 +107,17 @@ h1 {
     padding: 15px;
     background: #f8f9fa;
     border-radius: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.score, .total {
+.score, .total, .timer, .lives {
     font-size: 1.2em;
     color: #555;
     font-weight: bold;
 }
 
-.score span, .total span {
+.score span, .total span, .timer span, .lives span {
     color: #667eea;
 }
 

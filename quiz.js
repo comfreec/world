@@ -213,6 +213,10 @@ let gameStartCorrect = 0; // 게임 시작 시 정답 수
 let currentStreak = 0; // 현재 연속 정답
 let optionsCount = 4; // 선택지 개수 (고정)
 let maxQuestions = 20; // 최대 문제 수 (기본값: 보통)
+let gameMode = 'normal'; // 게임 모드: normal, timeattack, survival
+let timeLeft = 60; // 타임 어택 남은 시간
+let timerInterval = null; // 타이머 인터벌
+let lives = 3; // 서바이벌 생명
 
 // LocalStorage에서 데이터 로드
 function loadGameData() {
@@ -357,10 +361,54 @@ function initGame() {
     usedCountries = [];
     correctCount = 0; // 정답 카운트 초기화
     currentStreak = 0; // 연속 정답 초기화
+    
+    // 게임 모드별 초기화
+    if (gameMode === 'timeattack') {
+        timeLeft = 60;
+        document.getElementById('timerDisplay').style.display = 'block';
+        document.getElementById('livesDisplay').style.display = 'none';
+        document.getElementById('difficultySelectorDiv').style.display = 'none';
+        startTimer();
+    } else if (gameMode === 'survival') {
+        lives = 3;
+        document.getElementById('livesDisplay').style.display = 'block';
+        document.getElementById('timerDisplay').style.display = 'none';
+        document.getElementById('difficultySelectorDiv').style.display = 'none';
+        updateLives();
+    } else {
+        document.getElementById('timerDisplay').style.display = 'none';
+        document.getElementById('livesDisplay').style.display = 'none';
+        document.getElementById('difficultySelectorDiv').style.display = 'flex';
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
+    
     updateScore();
     nextBtn.style.display = 'none';
     restartBtn.style.display = 'none';
     loadQuestion();
+}
+
+// 타이머 시작
+function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').textContent = timeLeft;
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            endGame();
+        }
+    }, 1000);
+}
+
+// 생명 업데이트
+function updateLives() {
+    document.getElementById('lives').textContent = lives;
 }
 
 // 랜덤 국가 선택
@@ -371,8 +419,18 @@ function getRandomCountry(exclude = []) {
 
 // 문제 로드
 function loadQuestion() {
-    // 설정된 문제 수에 도달하면 게임 종료
-    if (totalQuestions >= maxQuestions) {
+    // 게임 모드별 종료 조건
+    if (gameMode === 'normal' && totalQuestions >= maxQuestions) {
+        endGame();
+        return;
+    }
+    
+    if (gameMode === 'timeattack' && timeLeft <= 0) {
+        endGame();
+        return;
+    }
+    
+    if (gameMode === 'survival' && lives <= 0) {
         endGame();
         return;
     }
@@ -538,6 +596,32 @@ function checkAnswer(selectedCountry) {
         // 오답
         totalQuestions++;
         currentStreak = 0; // 연속 정답 초기화
+        
+        // 서바이벌 모드: 생명 감소
+        if (gameMode === 'survival') {
+            lives--;
+            updateLives();
+            if (lives <= 0) {
+                feedbackElement.textContent = `💀 게임 오버! 정답은 ${currentCountry.name}입니다.`;
+                feedbackElement.className = 'feedback wrong';
+                speakCountryName(currentCountry.name);
+                
+                optionButtons.forEach(btn => {
+                    if (btn.textContent === selectedCountry.name) {
+                        btn.className = 'option-btn wrong';
+                    }
+                    if (btn.textContent === currentCountry.name) {
+                        btn.className = 'option-btn correct';
+                    }
+                });
+                
+                setTimeout(() => {
+                    endGame();
+                }, 2000);
+                return;
+            }
+        }
+        
         updateScore();
         playWrongSound(); // 오답 효과음
         feedbackElement.textContent = `❌ 틀렸습니다! 정답은 ${currentCountry.name}입니다.`;
@@ -593,15 +677,35 @@ function showRewardScreen() {
 function endGame() {
     saveGameData(); // 게임 데이터 저장
     
+    // 타이머 정리
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    
     flagElement.innerHTML = '<div style="font-size: 120px;">🏆</div>';
     
     const accuracy = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
     const isNewRecord = score === highScore && score > 0;
-    const difficultyText = maxQuestions === 10 ? '쉬움' : maxQuestions === 20 ? '보통' : maxQuestions === 30 ? '어려움' : '도전';
+    
+    let modeText = '';
+    let modeIcon = '';
+    
+    if (gameMode === 'timeattack') {
+        modeText = '타임 어택';
+        modeIcon = '⏱️';
+    } else if (gameMode === 'survival') {
+        modeText = '서바이벌';
+        modeIcon = '💀';
+    } else {
+        const difficultyText = maxQuestions === 10 ? '쉬움' : maxQuestions === 20 ? '보통' : maxQuestions === 30 ? '어려움' : '도전';
+        modeText = `일반 - ${difficultyText}`;
+        modeIcon = '🎯';
+    }
     
     feedbackElement.innerHTML = `
         <div style="font-size: 1.5em; margin-bottom: 15px;">게임 완료! 🎉</div>
-        <div style="font-size: 1em; margin-bottom: 10px; color: #667eea;">난이도: ${difficultyText} (${maxQuestions}문제)</div>
+        <div style="font-size: 1em; margin-bottom: 10px; color: #667eea;">${modeIcon} ${modeText} ${gameMode === 'normal' ? `(${maxQuestions}문제)` : ''}</div>
         <div style="font-size: 1.2em; margin-bottom: 10px;">최종 점수: ${score}/${totalQuestions}</div>
         <div style="font-size: 1.1em; margin-bottom: 10px;">정답률: ${accuracy}%</div>
         <div style="font-size: 1.1em; color: #667eea;">최고 점수: ${highScore}</div>
@@ -621,9 +725,19 @@ function endGame() {
 // 퀴즈 점수 공유
 function shareQuizScore() {
     const accuracy = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
-    const difficultyText = maxQuestions === 10 ? '쉬움' : maxQuestions === 20 ? '보통' : maxQuestions === 30 ? '어려움' : '도전';
+    
+    let modeText = '';
+    if (gameMode === 'timeattack') {
+        modeText = '타임 어택 (60초)';
+    } else if (gameMode === 'survival') {
+        modeText = '서바이벌 (3번 실수)';
+    } else {
+        const difficultyText = maxQuestions === 10 ? '쉬움' : maxQuestions === 20 ? '보통' : maxQuestions === 30 ? '어려움' : '도전';
+        modeText = `일반 - ${difficultyText} (${maxQuestions}문제)`;
+    }
+    
     const shareText = `🌍 세계 국기 마스터 - 퀴즈 🎯\n\n` +
-        `난이도: ${difficultyText} (${maxQuestions}문제)\n` +
+        `모드: ${modeText}\n` +
         `최종 점수: ${score}/${totalQuestions}\n` +
         `정답률: ${accuracy}%\n` +
         `최고 점수: ${highScore}점\n\n` +
@@ -654,6 +768,13 @@ restartBtn.addEventListener('click', () => {
 const difficultySelect = document.getElementById('difficultySelect');
 difficultySelect.addEventListener('change', () => {
     maxQuestions = parseInt(difficultySelect.value);
+    initGame();
+});
+
+// 게임 모드 선택
+const gameModeSelect = document.getElementById('gameModeSelect');
+gameModeSelect.addEventListener('change', () => {
+    gameMode = gameModeSelect.value;
     initGame();
 });
 
