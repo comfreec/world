@@ -525,3 +525,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// 스크롤 버튼 초기화
+window.addEventListener('DOMContentLoaded', () => {
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    const scrollBottomBtn = document.getElementById('scrollBottomBtn');
+    
+    // 스크롤 위치에 따라 버튼 표시/숨김
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollTopBtn.classList.add('show');
+            scrollBottomBtn.classList.add('show');
+        } else {
+            scrollTopBtn.classList.remove('show');
+            scrollBottomBtn.classList.remove('show');
+        }
+    });
+    
+    // 맨 위로 스크롤
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // 맨 아래로 스크롤
+    scrollBottomBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    });
+});
