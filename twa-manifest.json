@@ -1,0 +1,58 @@
+{
+  "packageId": "com.flagmaster.world",
+  "host": "comfreec.github.io",
+  "name": "세계 국기 마스터",
+  "launcherName": "국기마스터",
+  "display": "standalone",
+  "themeColor": "#667eea",
+  "navigationColor": "#667eea",
+  "backgroundColor": "#667eea",
+  "enableNotifications": false,
+  "startUrl": "/world/",
+  "iconUrl": "https://comfreec.github.io/world/icon-512.png",
+  "maskableIconUrl": "https://comfreec.github.io/world/icon-512.png",
+  "monochromeIconUrl": "https://comfreec.github.io/world/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [
+    {
+      "name": "퀴즈",
+      "short_name": "퀴즈",
+      "url": "/world/quiz.html",
+      "icon": "https://comfreec.github.io/world/icon-192.png"
+    },
+    {
+      "name": "메모리 게임",
+      "short_name": "메모리",
+      "url": "/world/memory-game/index.html",
+      "icon": "https://comfreec.github.io/world/icon-192.png"
+    },
+    {
+      "name": "학습",
+      "short_name": "학습",
+      "url": "/world/learn.html",
+      "icon": "https://comfreec.github.io/world/icon-192.png"
+    }
+  ],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://comfreec.github.io/world/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {
+    "locationDelegation": {
+      "enabled": false
+    },
+    "playBilling": {
+      "enabled": false
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "minSdkVersion": 21,
+  "targetSdkVersion": 34
+}
