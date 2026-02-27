@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>학습 모드 - 쭈니 국기 게임</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="theme-color" content="#667eea">
+    <link rel="stylesheet" href="learn.css?v=2">
+</head>
+<body>
+    <script>
+        // Service Worker 및 캐시 제거
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let name of names) {
+                    caches.delete(name);
+                }
+            });
+        }
+    </script>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn" onclick="location.href='index.html'">← 뒤로</button>
+            <h1>📚 국기 학습</h1>
+        </div>
+
+        <div class="search-section">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 국가 이름 검색...">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">전체 (195)</button>
+                <button class="filter-btn" data-filter="favorites">즐겨찾기 ⭐</button>
+                <button class="filter-btn" data-filter="learned">학습 완료 ✓</button>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-label">학습 진행률:</span>
+                <span class="stat-value" id="learnProgress">0%</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">즐겨찾기:</span>
+                <span class="stat-value" id="favoriteCount">0</span>
+            </div>
+        </div>
+
+        <div id="flagGrid" class="flag-grid"></div>
+
+        <!-- 국기 상세 모달 -->
+        <div id="flagModal" class="modal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal()">✕</button>
+                <div class="flag-detail">
+                    <img id="modalFlag" class="modal-flag" src="" alt="">
+                    <h2 id="modalCountryName"></h2>
+                    <button id="favoriteBtn" class="favorite-btn" onclick="toggleFavorite()">⭐ 즐겨찾기</button>
+                    <button class="speak-btn" onclick="speakCountry()">🔊 발음 듣기</button>
+                    <div class="country-info">
+                        <p><strong>국가 코드:</strong> <span id="modalCountryCode"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="learn.js?v=8"></script>
+</body>
+</html>
