@@ -72,19 +72,12 @@ body {
     75% { transform: rotate(3deg); }
 }
 
-.loading-icon .flag-icon-main {
-    width: 4em;
-    height: 3em;
-    animation: wave-main 2s ease-in-out infinite, pulse-flag 2s ease-in-out infinite;
+.loading-icon {
+    font-size: 4em;
+    animation: pulse-loading 2s ease-in-out infinite;
 }
 
-.loading-icon .flag-icon-main::before {
-    width: 8px;
-    height: 4.8em;
-    left: -8px;
-}
-
-@keyframes pulse-flag {
+@keyframes pulse-loading {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
 }
