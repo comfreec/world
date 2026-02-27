@@ -219,6 +219,15 @@ body {
     
     .header h1 {
         font-size: 2em;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 12px !important;
+    }
+    
+    .flag-icon-main {
+        width: 1em !important;
+        height: 0.75em !important;
     }
     
     .game-cards {
