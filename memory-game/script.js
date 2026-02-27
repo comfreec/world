@@ -64,7 +64,6 @@ var countries = [];
 var cards = [];
 var flippedCards = [];
 var matchedPairs = 0;
-var attempts = 0;
 var timer = 0;
 var timerInterval = null;
 var canFlip = true;
@@ -134,7 +133,6 @@ function saveMemoryGameData() {
 var gameBoard = document.getElementById('gameBoard');
 var player1ScoreEl = document.getElementById('player1Score');
 var player2ScoreEl = document.getElementById('player2Score');
-var attemptsEl = document.getElementById('attempts');
 var currentPlayerEl = document.getElementById('currentPlayer');
 var restartBtn = document.getElementById('restartBtn');
 var winModal = document.getElementById('winModal');
@@ -171,7 +169,6 @@ function initGame() {
     
     flippedCards = [];
     matchedPairs = 0;
-    attempts = 0;
     timer = 0;
     canFlip = true;
     currentPlayer = 1;
@@ -233,7 +230,6 @@ function flipCard(index) {
     
     if (flippedCards.length === 2) {
         canFlip = false;
-        attempts++;
         updateUI();
         
         setTimeout(function() {
@@ -332,7 +328,6 @@ function playWrongSound() {
 function updateUI() {
     player1ScoreEl.textContent = player1Score;
     player2ScoreEl.textContent = player2Score;
-    attemptsEl.textContent = attempts;
     currentPlayerEl.textContent = currentPlayer === 1 ? '플레이어 1 차례' : '플레이어 2 차례';
     currentPlayerEl.className = 'current-player player' + currentPlayer + '-turn';
 }
@@ -368,7 +363,6 @@ function endGame() {
         '<div style="font-size:1.2em;margin-bottom:10px;">플레이어 2: ' + player2Score + '쌍 ' + 
         (isNewRecord2 ? '<span style="color:#28a745;">🎉 신기록!</span>' : '(최고: ' + player2HighScore + ')') + '</div>' +
         '<div style="margin-top:15px;">시간: ' + timeStr + '</div>' +
-        '<div>시도 횟수: ' + attempts + '회</div>' +
         '<button onclick="shareMemoryScore()" style="margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: bold;">📤 점수 공유하기</button>';
     
     winModal.classList.add('show');
@@ -393,8 +387,7 @@ function shareMemoryScore() {
         winner + '\n' +
         '플레이어 1: ' + player1Score + '쌍 (최고: ' + player1HighScore + ')\n' +
         '플레이어 2: ' + player2Score + '쌍 (최고: ' + player2HighScore + ')\n' +
-        '시간: ' + timeStr + '\n' +
-        '시도: ' + attempts + '회\n\n' +
+        '시간: ' + timeStr + '\n\n' +
         '함께 국기를 배워요!';
     
     if (navigator.share) {
