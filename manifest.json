@@ -1,6 +1,6 @@
 {
-  "name": "쭈니 국기 게임",
-  "short_name": "국기게임",
+  "name": "세계 국기 마스터",
+  "short_name": "국기마스터",
   "description": "재미있게 세계 국기를 배우는 교육용 게임",
   "start_url": "/",
   "display": "standalone",
