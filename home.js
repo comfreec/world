@@ -7,8 +7,8 @@ function loadHomeData() {
     // 메모리 게임 최고 점수
     const player1High = localStorage.getItem('memoryPlayer1HighScore') || 0;
     const player2High = localStorage.getItem('memoryPlayer2HighScore') || 0;
-    document.getElementById('memoryPlayer1').textContent = `아빠 최고: ${player1High}`;
-    document.getElementById('memoryPlayer2').textContent = `쭈니 최고: ${player2High}`;
+    document.getElementById('memoryPlayer1').textContent = `플레이어 1 최고: ${player1High}`;
+    document.getElementById('memoryPlayer2').textContent = `플레이어 2 최고: ${player2High}`;
     
     // 전체 통계
     const stats = loadStats();
@@ -72,7 +72,7 @@ function shareScore() {
     const shareText = `🌍 세계 국기 마스터 🌍\n\n` +
         `📊 내 기록:\n` +
         `퀴즈 최고점수: ${quizHighScore}점\n` +
-        `메모리 게임: 아빠 ${player1High}쌍 / 쭈니 ${player2High}쌍\n` +
+        `메모리 게임: 플레이어 1 ${player1High}쌍 / 플레이어 2 ${player2High}쌍\n` +
         `총 게임 수: ${stats.totalGames}회\n` +
         `총 정답 수: ${stats.totalCorrect}개\n\n` +
         `함께 국기를 배워요! 🎯`;
