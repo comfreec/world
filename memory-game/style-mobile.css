@@ -117,6 +117,43 @@ h1 {
     border-radius: 2px;
 }
 
+.flag-icon-small {
+    display: inline-block !important;
+    width: 0.8em !important;
+    height: 0.6em !important;
+    position: relative;
+    background: linear-gradient(135deg, #ff4757 0%, #ff6348 100%);
+    border-radius: 2px;
+    box-shadow: 0 2px 6px rgba(255, 71, 87, 0.3);
+    animation: wave 2s ease-in-out infinite;
+    transform-origin: left center;
+    flex-shrink: 0;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.flag-icon-small::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 0;
+    width: 2px;
+    height: 1em;
+    background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+    border-radius: 1px;
+}
+
+.continent-icon .flag-icon-small {
+    width: 1.2em !important;
+    height: 0.9em !important;
+    margin: 0;
+}
+
+.continent-icon .flag-icon-small::before {
+    width: 3px;
+    height: 1.3em;
+}
+
 @keyframes wave {
     0%, 100% { transform: rotate(0deg); }
     25% { transform: rotate(-3deg); }

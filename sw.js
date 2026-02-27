@@ -1,4 +1,4 @@
-const CACHE_NAME = 'flag-game-v7';
+const CACHE_NAME = 'flag-game-v8';
 const urlsToCache = [
   '/',
   '/index.html',
