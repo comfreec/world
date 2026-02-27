@@ -67,6 +67,40 @@ const countries = [
     { name: '예멘', code: 'YE' }, { name: '잠비아', code: 'ZM' }, { name: '짐바브웨', code: 'ZW' }
 ];
 
+// 국가 상세 정보 (수도 및 특징)
+const countryInfo = {
+    'KR': { capital: '서울', feature: '한반도 남쪽에 위치한 나라로, K팝과 한류 문화로 유명합니다' },
+    'JP': { capital: '도쿄', feature: '아시아의 섬나라로, 첨단 기술과 전통 문화가 공존하는 나라입니다' },
+    'CN': { capital: '베이징', feature: '세계에서 인구가 가장 많은 나라로, 만리장성이 유명합니다' },
+    'US': { capital: '워싱턴', feature: '북아메리카의 강대국으로, 자유의 여신상이 있습니다' },
+    'GB': { capital: '런던', feature: '유럽의 섬나라로, 빅벤과 왕실로 유명합니다' },
+    'FR': { capital: '파리', feature: '유럽의 나라로, 에펠탑과 루브르 박물관이 있습니다' },
+    'DE': { capital: '베를린', feature: '유럽 중부의 나라로, 자동차 산업이 발달했습니다' },
+    'IT': { capital: '로마', feature: '유럽 남부의 나라로, 피자와 파스타의 본고장입니다' },
+    'ES': { capital: '마드리드', feature: '유럽 남서부의 나라로, 축구와 플라멩코가 유명합니다' },
+    'CA': { capital: '오타와', feature: '북아메리카의 넓은 나라로, 단풍잎이 상징입니다' },
+    'AU': { capital: '캔버라', feature: '오세아니아의 대륙 국가로, 캥거루와 코알라가 삽니다' },
+    'BR': { capital: '브라질리아', feature: '남아메리카 최대 국가로, 축구와 삼바가 유명합니다' },
+    'IN': { capital: '뉴델리', feature: '남아시아의 큰 나라로, 타지마할이 있습니다' },
+    'RU': { capital: '모스크바', feature: '세계에서 가장 넓은 나라로, 붉은 광장이 유명합니다' },
+    'MX': { capital: '멕시코시티', feature: '북아메리카 남부의 나라로, 타코와 마야 문명이 유명합니다' },
+    'TH': { capital: '방콕', feature: '동남아시아의 나라로, 사원과 맛있는 음식이 많습니다' },
+    'VN': { capital: '하노이', feature: '동남아시아의 나라로, 쌀국수가 유명합니다' },
+    'SG': { capital: '싱가포르', feature: '동남아시아의 도시 국가로, 깨끗하고 현대적입니다' },
+    'EG': { capital: '카이로', feature: '아프리카 북동부의 나라로, 피라미드가 있습니다' },
+    'ZA': { capital: '프리토리아', feature: '아프리카 남부의 나라로, 다양한 야생동물이 삽니다' },
+    'AR': { capital: '부에노스아이레스', feature: '남아메리카의 나라로, 탱고와 축구가 유명합니다' },
+    'NL': { capital: '암스테르담', feature: '유럽의 나라로, 튤립과 풍차가 유명합니다' },
+    'CH': { capital: '베른', feature: '유럽 중부의 나라로, 알프스 산맥과 시계가 유명합니다' },
+    'SE': { capital: '스톡홀름', feature: '북유럽의 나라로, 복지 제도가 잘 되어 있습니다' },
+    'NO': { capital: '오슬로', feature: '북유럽의 나라로, 피오르드가 아름답습니다' },
+    'PL': { capital: '바르샤바', feature: '동유럽의 나라로, 쇼팽의 고향입니다' },
+    'TR': { capital: '앙카라', feature: '유럽과 아시아에 걸친 나라로, 케밥이 유명합니다' },
+    'SA': { capital: '리야드', feature: '중동의 나라로, 석유가 많이 생산됩니다' },
+    'AE': { capital: '아부다비', feature: '중동의 나라로, 두바이의 높은 빌딩이 유명합니다' },
+    'NZ': { capital: '웰링턴', feature: '오세아니아의 섬나라로, 양이 많고 자연이 아름답습니다' }
+};
+
 let favorites = [];
 let learnedCountries = [];
 let currentFilter = 'all';
@@ -127,8 +161,8 @@ function renderFlags(filter = 'all', searchTerm = '') {
         `;
         
         card.addEventListener('click', () => {
-            // 클릭 시 바로 음성 재생
-            speakCountryName(country.name);
+            // 클릭 시 바로 국가 정보와 함께 음성 재생
+            speakCountryWithInfo(country);
             // 그 다음 상세 정보 표시
             showCountryDetail(country);
         });
@@ -145,11 +179,24 @@ function showCountryDetail(country) {
     const modalFlag = document.getElementById('modalFlag');
     const modalName = document.getElementById('modalCountryName');
     const modalCode = document.getElementById('modalCountryCode');
+    const countryDetails = document.getElementById('countryDetails');
     const favoriteBtn = document.getElementById('favoriteBtn');
     
     modalFlag.src = `https://flagcdn.com/w640/${country.code.toLowerCase()}.png`;
     modalName.textContent = country.name;
     modalCode.textContent = country.code;
+    
+    // 국가 상세 정보 표시
+    const info = countryInfo[country.code];
+    if (info) {
+        countryDetails.innerHTML = `
+            <p><strong>🏛️ 수도:</strong> ${info.capital}</p>
+            <p><strong>📝 특징:</strong> ${info.feature}</p>
+        `;
+        countryDetails.style.display = 'block';
+    } else {
+        countryDetails.style.display = 'none';
+    }
     
     if (favorites.includes(country.code)) {
         favoriteBtn.classList.add('active');
@@ -195,10 +242,29 @@ function speakCountryName(countryName) {
     }
 }
 
+// 국가 정보와 함께 발음 (클릭 시)
+function speakCountryWithInfo(country) {
+    if ('speechSynthesis' in window) {
+        const info = countryInfo[country.code];
+        let text = country.name;
+        
+        if (info) {
+            text += `. 수도는 ${info.capital}입니다. ${info.feature}`;
+        }
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ko-KR';
+        utterance.rate = 1.3;
+        utterance.pitch = 1;
+        utterance.volume = 10;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
 // 국가 이름 발음 (발음 버튼용)
 function speakCountry() {
     if (!currentCountry) return;
-    speakCountryName(currentCountry.name);
+    speakCountryWithInfo(currentCountry);
 }
 
 // 통계 업데이트
