@@ -12,16 +12,38 @@
     align-items: center;
     gap: 15px;
     z-index: 10000;
-    transition: right 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
 }
 
 .achievement-notification.show {
     right: 20px;
+    animation: achievementPulse 0.6s ease-in-out;
+}
+
+@keyframes achievementPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 .achievement-icon {
     font-size: 3em;
     flex-shrink: 0;
+    animation: iconBounce 0.8s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 .achievement-info {
@@ -32,26 +54,63 @@
     font-size: 0.9em;
     opacity: 0.9;
     margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
 }
 
 .achievement-name {
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-weight: bold;
     margin-bottom: 5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .achievement-desc {
     font-size: 0.85em;
-    opacity: 0.8;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+/* 반짝이는 효과 */
+.achievement-notification::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    border-radius: 15px;
+    animation: shimmer 2s infinite;
+    z-index: -1;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 @media (max-width: 600px) {
     .achievement-notification {
         width: calc(100% - 40px);
         right: -100%;
+        top: 10px;
     }
     
     .achievement-notification.show {
         right: 20px;
+    }
+    
+    .achievement-icon {
+        font-size: 2.5em;
+    }
+    
+    .achievement-name {
+        font-size: 1.1em;
     }
 }

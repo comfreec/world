@@ -10,6 +10,23 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="description" content="세계 국기 마스터 - 재미있게 세계 국기를 배워보세요! 퀴즈, 메모리, 학습 모드">
+    <meta name="keywords" content="국기, 교육, 퀴즈, 학습, 지리, 세계, 게임, 메모리, 국가">
+    <meta name="author" content="세계 국기 마스터">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://comfreec.github.io/world/">
+    <meta property="og:title" content="세계 국기 마스터 - 재미있게 국기 배우기">
+    <meta property="og:description" content="195개 국가의 국기를 퀴즈, 메모리 게임, 학습 모드로 재미있게 배워보세요!">
+    <meta property="og:image" content="https://comfreec.github.io/world/icon-512.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://comfreec.github.io/world/">
+    <meta property="twitter:title" content="세계 국기 마스터 - 재미있게 국기 배우기">
+    <meta property="twitter:description" content="195개 국가의 국기를 퀴즈, 메모리 게임, 학습 모드로 재미있게 배워보세요!">
+    <meta property="twitter:image" content="https://comfreec.github.io/world/icon-512.png">
+    
     <title>세계 국기 마스터</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="manifest" href="/manifest.json">
@@ -66,18 +83,18 @@
         <div class="header">
             <h1>🌍 세계 국기 마스터</h1>
             <p class="subtitle">재미있게 세계 국기를 배워보세요!</p>
-            <button class="settings-btn" onclick="location.href='settings.html'" title="설정">⚙️</button>
+            <button class="settings-btn" onclick="location.href='settings.html'" title="설정" aria-label="설정 페이지로 이동">⚙️</button>
         </div>
 
         <div class="game-cards">
-            <div class="game-card" onclick="location.href='quiz.html'">
+            <div class="game-card" onclick="location.href='quiz.html'" role="button" tabindex="0" aria-label="국기 퀴즈 게임 시작">
                 <div class="game-icon">🎯</div>
                 <h2>국기 퀴즈</h2>
                 <p>국기를 보고 나라 이름을 맞춰보세요</p>
                 <div class="high-score" id="quizHighScore">최고 점수: 0</div>
             </div>
 
-            <div class="game-card" onclick="location.href='memory-game/index.html'">
+            <div class="game-card" onclick="location.href='memory-game/index.html'" role="button" tabindex="0" aria-label="메모리 게임 시작">
                 <div class="game-icon">🧠</div>
                 <h2>메모리 게임</h2>
                 <p>같은 국기를 찾아 짝을 맞춰보세요</p>
@@ -87,7 +104,7 @@
                 </div>
             </div>
             
-            <div class="game-card" onclick="location.href='learn.html?v=' + Date.now()">
+            <div class="game-card" onclick="location.href='learn.html?v=' + Date.now()" role="button" tabindex="0" aria-label="학습 모드 시작">
                 <div class="game-icon">📚</div>
                 <h2>학습 모드</h2>
                 <p>195개 국가의 국기를 탐색하고 학습하세요</p>
