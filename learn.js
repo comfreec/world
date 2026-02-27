@@ -126,7 +126,12 @@ function renderFlags(filter = 'all', searchTerm = '') {
             <div class="country-name">${country.name}</div>
         `;
         
-        card.addEventListener('click', () => showCountryDetail(country));
+        card.addEventListener('click', () => {
+            // 클릭 시 바로 음성 재생
+            speakCountryName(country.name);
+            // 그 다음 상세 정보 표시
+            showCountryDetail(country);
+        });
         grid.appendChild(card);
     });
     
@@ -178,16 +183,22 @@ function toggleFavorite() {
     showCountryDetail(currentCountry);
 }
 
-// 국가 이름 발음
-function speakCountry() {
-    if (!currentCountry) return;
-    
+// 국가 이름 발음 (메모리 게임과 동일한 속도)
+function speakCountryName(countryName) {
     if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(currentCountry.name);
+        const utterance = new SpeechSynthesisUtterance(countryName);
         utterance.lang = 'ko-KR';
-        utterance.rate = 0.9;
+        utterance.rate = 1.3; // 메모리 게임과 동일한 속도
+        utterance.pitch = 1;
+        utterance.volume = 10;
         window.speechSynthesis.speak(utterance);
     }
+}
+
+// 국가 이름 발음 (발음 버튼용)
+function speakCountry() {
+    if (!currentCountry) return;
+    speakCountryName(currentCountry.name);
 }
 
 // 통계 업데이트

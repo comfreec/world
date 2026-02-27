@@ -220,7 +220,7 @@ function flipCard(index) {
     var card = cards[index];
     
     if (cardEl.classList.contains('matched')) {
-        speakCountryName(card.name, 1.0);
+        speakCountryName(card.name, 1.3); // 속도 통일
         return;
     }
     
