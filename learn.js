@@ -288,6 +288,33 @@ function saveFavorites() {
     localStorage.setItem('favoriteCountries', JSON.stringify(favorites));
 }
 
+// 한글 초성 추출 함수
+function getChosung(str) {
+    const cho = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+    let result = '';
+    
+    for (let i = 0; i < str.length; i++) {
+        const code = str.charCodeAt(i) - 44032;
+        if (code > -1 && code < 11172) {
+            result += cho[Math.floor(code / 588)];
+        } else {
+            result += str.charAt(i);
+        }
+    }
+    return result;
+}
+
+// 초성 검색 매칭 함수
+function matchChosung(text, search) {
+    // 일반 검색
+    if (text.includes(search)) {
+        return true;
+    }
+    
+    // 초성 검색
+    const textChosung = getChosung(text);
+    return textChosung.includes(search);
+}
 // 국기 그리드 렌더링
 function renderFlags(filter = 'all', searchTerm = '') {
     const grid = document.getElementById('flagGrid');
@@ -302,10 +329,10 @@ function renderFlags(filter = 'all', searchTerm = '') {
         filteredCountries = countries.filter(c => learnedCountries.includes(c.code));
     }
     
-    // 검색어 적용
+    // 검색어 적용 (초성 검색 포함)
     if (searchTerm) {
         filteredCountries = filteredCountries.filter(c => 
-            c.name.toLowerCase().includes(searchTerm.toLowerCase())
+            matchChosung(c.name, searchTerm)
         );
     }
     
@@ -460,8 +487,25 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFlags();
     
     // 검색
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-        renderFlags(currentFilter, e.target.value);
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    
+    // 검색 실행 함수
+    const performSearch = () => {
+        renderFlags(currentFilter, searchInput.value);
+    };
+    
+    // 입력 시 실시간 검색
+    searchInput.addEventListener('input', performSearch);
+    
+    // 검색 버튼 클릭
+    searchBtn.addEventListener('click', performSearch);
+    
+    // 엔터키로 검색
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
     });
     
     // 필터 버튼
