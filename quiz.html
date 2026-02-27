@@ -11,7 +11,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="/icon-192.png">
-    <link rel="stylesheet" href="quiz.css?v=15">
+    <link rel="stylesheet" href="quiz.css?v=19">
     <link rel="stylesheet" href="achievements.css">
 </head>
 <body>
@@ -22,28 +22,30 @@
             <button id="settingsBtn" class="settings-btn">⚙️</button>
         </div>
         
-        <div class="game-mode-selector">
-            <label for="gameModeSelect">게임 모드:</label>
-            <select id="gameModeSelect" class="game-mode-select">
-                <option value="normal" selected>일반 모드</option>
-                <option value="timeattack">타임 어택 (60초)</option>
-                <option value="survival">서바이벌 (3번 실수)</option>
-            </select>
+        <div class="game-settings-combined">
+            <div class="setting-group">
+                <label for="gameModeSelect">게임 모드:</label>
+                <select id="gameModeSelect" class="game-mode-select">
+                    <option value="normal" selected>일반 모드</option>
+                    <option value="timeattack">타임 어택 (60초)</option>
+                    <option value="survival">서바이벌 (3번 실수)</option>
+                </select>
+            </div>
+            
+            <div class="setting-group" id="difficultySelectorDiv">
+                <label for="difficultySelect">난이도:</label>
+                <select id="difficultySelect" class="difficulty-select">
+                    <option value="10">쉬움 (10문제)</option>
+                    <option value="20" selected>보통 (20문제)</option>
+                    <option value="30">어려움 (30문제)</option>
+                    <option value="50">도전 (50문제)</option>
+                </select>
+            </div>
         </div>
         
         <div class="mode-toggle" style="display: none;">
             <button id="choiceMode" class="mode-btn active">선택 모드</button>
             <button id="inputMode" class="mode-btn">입력 모드 (2배)</button>
-        </div>
-        
-        <div class="difficulty-selector" id="difficultySelectorDiv">
-            <label for="difficultySelect">난이도:</label>
-            <select id="difficultySelect" class="difficulty-select">
-                <option value="10">쉬움 (10문제)</option>
-                <option value="20" selected>보통 (20문제)</option>
-                <option value="30">어려움 (30문제)</option>
-                <option value="50">도전 (50문제)</option>
-            </select>
         </div>
         
         <div class="score-board">
@@ -106,6 +108,6 @@
     </div>
 
     <script src="achievements.js"></script>
-    <script src="quiz.js?v=20"></script>
+    <script src="quiz.js?v=23"></script>
 </body>
 </html>

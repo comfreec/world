@@ -31,6 +31,51 @@ h1 {
     font-size: 2em;
 }
 
+.game-settings-combined {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff3cd;
+    border-radius: 10px;
+    border: 2px solid #ffc107;
+    flex-wrap: wrap;
+}
+
+.game-settings-combined .setting-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.game-settings-combined label {
+    font-size: 1em;
+    font-weight: bold;
+    color: #856404;
+    white-space: nowrap;
+}
+
+.game-mode-select,
+.difficulty-select {
+    padding: 8px 12px;
+    font-size: 0.95em;
+    border: 2px solid #ff9800;
+    border-radius: 8px;
+    background: white;
+    color: #856404;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+}
+
+.game-mode-select:focus,
+.difficulty-select:focus {
+    border-color: #f57c00;
+    box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
+}
+
 .game-mode-selector {
     display: flex;
     align-items: center;
@@ -289,6 +334,16 @@ h1 {
     
     .options {
         grid-template-columns: 1fr;
+    }
+    
+    .game-settings-combined {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+    
+    .game-settings-combined .setting-group {
+        justify-content: space-between;
     }
 }
 
