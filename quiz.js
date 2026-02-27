@@ -526,17 +526,10 @@ function checkAnswer(selectedCountry) {
             usedCountries.push(currentCountry);
         }
         
-        // 50개 달성 체크
-        if (correctCount === 50) {
-            setTimeout(() => {
-                showRewardScreen();
-            }, 1000);
-        } else {
-            // 1초 후 자동으로 다음 문제로
-            setTimeout(() => {
-                loadQuestion();
-            }, 1000);
-        }
+        // 다음 문제로
+        setTimeout(() => {
+            loadQuestion();
+        }, 1000);
     } else {
         // 오답
         totalQuestions++;
@@ -716,19 +709,13 @@ function checkInputAnswer(userAnswer) {
             usedCountries.push(currentCountry);
         }
         
-        // 50개 달성 체크
-        if (correctCount >= 50) {
-            setTimeout(() => {
-                showRewardScreen();
-            }, 1000);
-        } else {
-            setTimeout(() => {
-                countryInput.value = '';
-                countryInput.disabled = false;
-                submitBtn.disabled = false;
-                loadQuestion();
-            }, 1000);
-        }
+        // 다음 문제로
+        setTimeout(() => {
+            countryInput.value = '';
+            countryInput.disabled = false;
+            submitBtn.disabled = false;
+            loadQuestion();
+        }, 1000);
     } else {
         // 오답
         playWrongSound();
