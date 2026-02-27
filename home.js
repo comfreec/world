@@ -174,6 +174,13 @@ window.addEventListener('load', function() {
         }
     }, 500);
     
+    // 배너 광고 표시
+    setTimeout(() => {
+        if (window.adManager) {
+            adManager.showBanner();
+        }
+    }, 1000);
+    
     // 첫 클릭 시 전체화면
     document.body.addEventListener('click', function() {
         if (!document.fullscreenElement && !document.webkitFullscreenElement) {

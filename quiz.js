@@ -694,6 +694,11 @@ function endGame() {
         timerInterval = null;
     }
     
+    // 전면 광고 표시
+    if (window.adManager) {
+        adManager.showInterstitial();
+    }
+    
     flagElement.innerHTML = '<div style="font-size: 120px;">🏆</div>';
     
     const accuracy = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
