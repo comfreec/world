@@ -342,11 +342,11 @@ h1 {
     }
     
     .player-name {
-        font-size: 2em !important;
+        font-size: 0.8em !important;
     }
     
     .score-value {
-        font-size: 2em !important;
+        font-size: 1.4em !important;
     }
     
     .btn-small {
