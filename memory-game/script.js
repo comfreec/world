@@ -1,3 +1,6 @@
+// 앱 설정 로드
+var appSettings = JSON.parse(localStorage.getItem('appSettings') || '{"voiceEnabled":true,"soundEnabled":true,"voiceSpeed":1.3}');
+
 // 전 세계 국가 데이터 (대륙 정보 포함)
 var allCountries = [
     // 아시아
@@ -82,15 +85,10 @@ function loadMemoryGameData() {
     if (saved1) player1HighScore = parseInt(saved1);
     if (saved2) player2HighScore = parseInt(saved2);
     
-    var savedSound = localStorage.getItem('memorySoundEnabled');
-    if (savedSound !== null) {
-        soundEnabled = savedSound === 'true';
-    }
-    
-    var savedVoice = localStorage.getItem('memoryVoiceEnabled');
-    if (savedVoice !== null) {
-        voiceEnabled = savedVoice === 'true';
-    }
+    // 앱 설정에서 사운드/음성 설정 가져오기
+    appSettings = JSON.parse(localStorage.getItem('appSettings') || '{"voiceEnabled":true,"soundEnabled":true,"voiceSpeed":1.3}');
+    soundEnabled = appSettings.soundEnabled;
+    voiceEnabled = appSettings.voiceEnabled;
 }
 
 // LocalStorage에 데이터 저장
@@ -220,7 +218,7 @@ function flipCard(index) {
     var card = cards[index];
     
     if (cardEl.classList.contains('matched')) {
-        speakCountryName(card.name, 1.3); // 속도 통일
+        speakCountryName(card.name);
         return;
     }
     
@@ -231,7 +229,7 @@ function flipCard(index) {
     cardEl.classList.add('flipped');
     flippedCards.push({ index: index, card: card, element: cardEl });
     
-    speakCountryName(card.name, 1.3);
+    speakCountryName(card.name);
     
     if (flippedCards.length === 2) {
         canFlip = false;
@@ -278,14 +276,14 @@ function checkMatch() {
     canFlip = true;
 }
 
-function speakCountryName(countryName, rate) {
-    if (!voiceEnabled) return;
+function speakCountryName(countryName) {
+    if (!appSettings.voiceEnabled) return;
     
     try {
         if ('speechSynthesis' in window) {
             var utterance = new SpeechSynthesisUtterance(countryName);
             utterance.lang = 'ko-KR';
-            utterance.rate = rate || 0.9;
+            utterance.rate = appSettings.voiceSpeed;
             utterance.pitch = 1;
             utterance.volume = 10;
             window.speechSynthesis.speak(utterance);
@@ -464,8 +462,10 @@ var continentNames = {
 };
 
 function saveSettings() {
-    localStorage.setItem('memorySoundEnabled', soundEnabled.toString());
-    localStorage.setItem('memoryVoiceEnabled', voiceEnabled.toString());
+    // 앱 설정에 저장
+    appSettings.soundEnabled = soundEnabled;
+    appSettings.voiceEnabled = voiceEnabled;
+    localStorage.setItem('appSettings', JSON.stringify(appSettings));
     localStorage.setItem('selectedContinent', selectedContinent);
 }
 

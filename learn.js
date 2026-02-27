@@ -1,4 +1,7 @@
 // 전 세계 국가 데이터 (quiz.js와 동일)
+// 앱 설정 로드
+const appSettings = JSON.parse(localStorage.getItem('appSettings') || '{"voiceEnabled":true,"soundEnabled":true,"voiceSpeed":1.3}');
+
 const countries = [
     { name: '아프가니스탄', code: 'AF' }, { name: '알바니아', code: 'AL' }, { name: '알제리', code: 'DZ' },
     { name: '안도라', code: 'AD' }, { name: '앙골라', code: 'AO' }, { name: '앤티가 바부다', code: 'AG' },
@@ -427,12 +430,14 @@ function toggleFavorite() {
     showCountryDetail(currentCountry);
 }
 
-// 국가 이름 발음 (메모리 게임과 동일한 속도)
+// 국가 이름 발음
 function speakCountryName(countryName) {
+    if (!appSettings.voiceEnabled) return;
+    
     if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(countryName);
         utterance.lang = 'ko-KR';
-        utterance.rate = 1.3; // 메모리 게임과 동일한 속도
+        utterance.rate = appSettings.voiceSpeed;
         utterance.pitch = 1;
         utterance.volume = 10;
         window.speechSynthesis.speak(utterance);
@@ -441,6 +446,8 @@ function speakCountryName(countryName) {
 
 // 국가 정보와 함께 발음 (클릭 시)
 function speakCountryWithInfo(country) {
+    if (!appSettings.voiceEnabled) return;
+    
     if ('speechSynthesis' in window) {
         const info = countryInfo[country.code];
         let text = country.name;
@@ -451,7 +458,7 @@ function speakCountryWithInfo(country) {
         
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'ko-KR';
-        utterance.rate = 1.3;
+        utterance.rate = appSettings.voiceSpeed;
         utterance.pitch = 1;
         utterance.volume = 10;
         

@@ -1,4 +1,7 @@
 // 전 세계 국가 데이터 (ISO 3166-1 alpha-2)
+// 앱 설정 로드
+const appSettings = JSON.parse(localStorage.getItem('appSettings') || '{"voiceEnabled":true,"soundEnabled":true,"voiceSpeed":1.3}');
+
 const countries = [
     { name: '아프가니스탄', code: 'AF' },
     { name: '알바니아', code: 'AL' },
@@ -204,8 +207,8 @@ let usedCountries = [];
 let correctCount = 0; // 연속 정답 카운트
 let isInputMode = false; // 입력 모드 여부
 let highScore = 0; // 최고 점수
-let soundEnabled = true; // 효과음 설정
-let voiceEnabled = true; // 음성 설정
+let soundEnabled = appSettings.soundEnabled; // 효과음 설정
+let voiceEnabled = appSettings.voiceEnabled; // 음성 설정
 let gameStartCorrect = 0; // 게임 시작 시 정답 수
 let currentStreak = 0; // 현재 연속 정답
 let optionsCount = 4; // 선택지 개수 (고정)
@@ -744,7 +747,7 @@ function speakCountryName(countryName) {
         if ('speechSynthesis' in window) {
             const utterance = new SpeechSynthesisUtterance(countryName);
             utterance.lang = 'ko-KR';
-            utterance.rate = 0.9;
+            utterance.rate = appSettings.voiceSpeed;
             utterance.pitch = 1;
             utterance.volume = 1;
             window.speechSynthesis.speak(utterance);
