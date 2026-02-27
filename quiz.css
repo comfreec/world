@@ -673,3 +673,37 @@ h1 {
     color: white;
     transform: translateY(-2px);
 }
+
+/* 설정 모달 닫기 버튼 */
+#closeSettingsBtn {
+    margin-top: 30px;
+    padding: 15px 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.3em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    min-width: 150px;
+}
+
+#closeSettingsBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+#closeSettingsBtn:active {
+    transform: translateY(0);
+}
+
+/* 모바일에서 더 크게 */
+@media (max-width: 600px) {
+    #closeSettingsBtn {
+        padding: 18px 50px;
+        font-size: 1.5em;
+        min-width: 200px;
+    }
+}
