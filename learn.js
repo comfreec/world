@@ -377,6 +377,10 @@ function showCountryDetail(country) {
 
 // 모달 닫기
 function closeModal() {
+    // 음성 중지
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+    }
     document.getElementById('flagModal').classList.remove('show');
 }
 
@@ -423,6 +427,12 @@ function speakCountryWithInfo(country) {
         utterance.rate = 1.3;
         utterance.pitch = 1;
         utterance.volume = 10;
+        
+        // 음성 설명이 끝나면 모달 닫기
+        utterance.onend = function() {
+            closeModal();
+        };
+        
         window.speechSynthesis.speak(utterance);
     }
 }
