@@ -1,4 +1,4 @@
-const CACHE_NAME = 'flag-game-v4';
+const CACHE_NAME = 'flag-game-v5';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -6,6 +6,10 @@ const urlsToCache = [
   '/stats.html',
   '/about.html',
   '/learn.html',
+  '/settings.html',
+  '/help.html',
+  '/privacy.html',
+  '/terms.html',
   '/memory-game/index.html',
   '/home.css',
   '/home.js',
@@ -16,10 +20,16 @@ const urlsToCache = [
   '/about.css',
   '/learn.css',
   '/learn.js',
+  '/settings.js',
   '/achievements.css',
   '/achievements.js',
+  '/country-data.js',
+  '/memory-game/style.css',
   '/memory-game/style-mobile.css',
-  '/memory-game/script.js'
+  '/memory-game/script.js',
+  '/favicon.svg',
+  '/icon-192.png',
+  '/icon-512.png'
 ];
 
 // 설치 이벤트
