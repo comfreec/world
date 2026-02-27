@@ -249,6 +249,17 @@ function saveGameData() {
     stats.totalCorrect = (stats.totalCorrect || 0) + (score - gameStartCorrect);
     stats.quizHighScore = highScore;
     
+    // 게임 모드별 최고 점수 저장
+    if (gameMode === 'timeattack') {
+        if (score > (stats.timeAttackHighScore || 0)) {
+            stats.timeAttackHighScore = score;
+        }
+    } else if (gameMode === 'survival') {
+        if (score > (stats.survivalHighScore || 0)) {
+            stats.survivalHighScore = score;
+        }
+    }
+    
     if (currentStreak > (stats.maxStreak || 0)) {
         stats.maxStreak = currentStreak;
     }

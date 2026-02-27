@@ -18,6 +18,17 @@ function loadAndDisplayStats() {
     document.getElementById('countriesLearned').textContent = stats.countriesLearned || 0;
     document.getElementById('perfectGames').textContent = stats.memoryPerfect || 0;
     
+    // 게임 모드별 최고 점수
+    document.getElementById('timeAttackHigh').textContent = stats.timeAttackHighScore || 0;
+    document.getElementById('survivalHigh').textContent = stats.survivalHighScore || 0;
+    
+    // 시간대별 게임 횟수
+    document.getElementById('morningGames').textContent = stats.morningGames || 0;
+    document.getElementById('nightGames').textContent = stats.nightGames || 0;
+    
+    // 연속 플레이 일수
+    document.getElementById('consecutiveDays').textContent = stats.consecutiveDays || 0;
+    
     // 최고 속도
     if (stats.fastestMemoryTime && stats.fastestMemoryTime > 0) {
         const minutes = Math.floor(stats.fastestMemoryTime / 60);
