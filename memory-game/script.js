@@ -281,7 +281,7 @@ function speakCountryName(countryName) {
             utterance.lang = 'ko-KR';
             utterance.rate = appSettings.voiceSpeed;
             utterance.pitch = 1;
-            utterance.volume = 10;
+            utterance.volume = 1.0;
             window.speechSynthesis.speak(utterance);
         }
     } catch(e) {
