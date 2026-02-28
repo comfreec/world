@@ -49,8 +49,8 @@ const AdsConfig = {
         // 전면 광고: 게임 N회마다 표시
         interstitialEveryNGames: 3,
         
-        // 배너 광고: 항상 표시
-        bannerAlwaysShow: true
+        // 배너 광고: 비활성화
+        bannerAlwaysShow: false
     },
     
     // 광고 표시 위치
