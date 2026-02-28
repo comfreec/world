@@ -188,3 +188,20 @@ window.addEventListener('load', function() {
         }
     }, { once: true });
 });
+
+
+// 카카오톡 인앱 브라우저 감지
+function detectKakaoInAppBrowser() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isKakao = userAgent.includes('kakaotalk');
+    
+    if (isKakao) {
+        const warning = document.getElementById('kakaoWarning');
+        if (warning) {
+            warning.style.display = 'block';
+        }
+    }
+}
+
+// 페이지 로드 시 카카오톡 감지
+window.addEventListener('load', detectKakaoInAppBrowser);
