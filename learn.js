@@ -439,7 +439,7 @@ function speakCountryName(countryName) {
         utterance.lang = 'ko-KR';
         utterance.rate = appSettings.voiceSpeed;
         utterance.pitch = 1;
-        utterance.volume = 10;
+        utterance.volume = 1.0;
         window.speechSynthesis.speak(utterance);
     }
 }
@@ -460,7 +460,7 @@ function speakCountryWithInfo(country) {
         utterance.lang = 'ko-KR';
         utterance.rate = appSettings.voiceSpeed;
         utterance.pitch = 1;
-        utterance.volume = 10;
+        utterance.volume = 1.0;
         
         // 음성 설명이 끝나면 모달 닫기
         utterance.onend = function() {
