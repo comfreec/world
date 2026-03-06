@@ -1,8 +1,19 @@
 // 모바일에서 가로 모드 고정
-if (window.screen && window.screen.orientation && /Mobi|Android/i.test(navigator.userAgent)) {
-    try {
-        screen.orientation.lock('landscape').catch(() => {});
-    } catch (e) {}
+function lockLandscape() {
+    if (window.screen && window.screen.orientation) {
+        try {
+            screen.orientation.lock('landscape').catch(() => {});
+        } catch (e) {}
+    }
+}
+
+// 페이지 로드 시 가로 모드 고정 시도
+if (/Mobi|Android/i.test(navigator.userAgent)) {
+    lockLandscape();
+    
+    // 전체화면 진입 시에도 가로 모드 고정
+    document.addEventListener('fullscreenchange', lockLandscape);
+    document.addEventListener('webkitfullscreenchange', lockLandscape);
 }
 
 // 앱 설정 로드
