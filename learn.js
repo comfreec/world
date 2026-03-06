@@ -1,8 +1,23 @@
 // 모바일에서 세로 모드 고정
-if (window.screen && window.screen.orientation && /Mobi|Android/i.test(navigator.userAgent)) {
-    try {
-        screen.orientation.lock('portrait').catch(() => {});
-    } catch (e) {}
+function lockPortrait() {
+    if (window.screen && window.screen.orientation) {
+        try {
+            screen.orientation.lock('portrait').catch(() => {});
+        } catch (e) {}
+    }
+}
+
+// 페이지 로드 시 세로 모드 고정 시도
+if (/Mobi|Android/i.test(navigator.userAgent)) {
+    lockPortrait();
+    
+    // 화면 방향 변경 시에도 세로 모드 유지
+    window.addEventListener('orientationchange', lockPortrait);
+    screen.orientation?.addEventListener('change', lockPortrait);
+    
+    // 전체화면 진입 시에도 세로 모드 고정
+    document.addEventListener('fullscreenchange', lockPortrait);
+    document.addEventListener('webkitfullscreenchange', lockPortrait);
 }
 
 // 전 세계 국가 데이터 (quiz.js와 동일)
