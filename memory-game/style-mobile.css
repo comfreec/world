@@ -819,7 +819,7 @@ h1 {
 }
 
 /* 모바일/태블릿 가로 모드 최적화 */
-@media (max-width: 1366px) and (orientation: landscape) {
+@media (min-width: 769px) and (max-width: 1366px) and (orientation: landscape) {
     body {
         padding: 0;
     }
