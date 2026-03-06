@@ -441,7 +441,7 @@ h1 {
     }
     
     .container {
-        padding: 2px;
+        padding: 1px;
         width: 100vw;
         height: 100vh;
         border-radius: 0;
@@ -552,7 +552,7 @@ h1 {
     }
     
     .country-name {
-        font-size: 0.8em;
+        font-size: 0.55em;
     }
     
     .card-front {
@@ -700,7 +700,7 @@ h1 {
     }
     
     .country-name {
-        font-size: 0.8em;
+        font-size: 0.55em;
     }
     
     .card-front {
