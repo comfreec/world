@@ -1,3 +1,10 @@
+// 모바일에서 가로 모드 고정
+if (window.screen && window.screen.orientation && /Mobi|Android/i.test(navigator.userAgent)) {
+    try {
+        screen.orientation.lock('landscape').catch(() => {});
+    } catch (e) {}
+}
+
 // 앱 설정 로드
 var appSettings = JSON.parse(localStorage.getItem('appSettings') || '{"voiceEnabled":true,"soundEnabled":true,"voiceSpeed":1.3}');
 
@@ -420,12 +427,19 @@ function requestFullscreen() {
 
 // 페이지 로드 시 전체화면 시도
 window.addEventListener('load', function() {
-    // 사용자 인터랙션 후 전체화면 실행
+    // 사용자 인터랙션 후 전체화면 실행 (모든 클릭에서 체크)
     document.body.addEventListener('click', function() {
         if (!document.fullscreenElement && !document.webkitFullscreenElement) {
             requestFullscreen();
         }
-    }, { once: true });
+    });
+    
+    // 터치 이벤트도 처리 (모바일)
+    document.body.addEventListener('touchstart', function() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            requestFullscreen();
+        }
+    });
 });
 
 initGame();

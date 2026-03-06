@@ -1,3 +1,10 @@
+// 모바일에서 세로 모드 고정
+if (window.screen && window.screen.orientation && /Mobi|Android/i.test(navigator.userAgent)) {
+    try {
+        screen.orientation.lock('portrait').catch(() => {});
+    } catch (e) {}
+}
+
 // 전 세계 국가 데이터 (quiz.js와 동일)
 // 앱 설정 로드
 const appSettings = JSON.parse(localStorage.getItem('appSettings') || '{"voiceEnabled":true,"soundEnabled":true,"voiceSpeed":1.3}');
@@ -563,5 +570,34 @@ window.addEventListener('DOMContentLoaded', () => {
             top: document.body.scrollHeight,
             behavior: 'smooth'
         });
+    });
+});
+
+// 전체화면 요청 함수
+function requestFullscreen() {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+    }
+}
+
+// 페이지 로드 시 전체화면 시도
+window.addEventListener('load', function() {
+    // 사용자 인터랙션 후 전체화면 실행 (모든 클릭에서 체크)
+    document.body.addEventListener('click', function() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            requestFullscreen();
+        }
+    });
+    
+    // 터치 이벤트도 처리 (모바일)
+    document.body.addEventListener('touchstart', function() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            requestFullscreen();
+        }
     });
 });

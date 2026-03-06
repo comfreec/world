@@ -1,3 +1,10 @@
+// 모바일에서 세로 모드 고정
+if (window.screen && window.screen.orientation && /Mobi|Android/i.test(navigator.userAgent)) {
+    try {
+        screen.orientation.lock('portrait').catch(() => {});
+    } catch (e) {}
+}
+
 // 저장된 데이터 로드
 function loadHomeData() {
     // 퀴즈 게임 최고 점수
@@ -181,12 +188,19 @@ window.addEventListener('load', function() {
         }
     }, 1000);
     
-    // 첫 클릭 시 전체화면
+    // 첫 클릭 시 전체화면 (모든 클릭에서 체크)
     document.body.addEventListener('click', function() {
         if (!document.fullscreenElement && !document.webkitFullscreenElement) {
             requestFullscreen();
         }
-    }, { once: true });
+    });
+    
+    // 터치 이벤트도 처리 (모바일)
+    document.body.addEventListener('touchstart', function() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            requestFullscreen();
+        }
+    });
 });
 
 
