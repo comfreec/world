@@ -3,10 +3,9 @@
   "short_name": "국기마스터",
   "description": "재미있게 세계 국기를 배우는 교육용 게임",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#667eea",
   "theme_color": "#667eea",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "/icon-192.png",
