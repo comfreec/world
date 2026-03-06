@@ -20,7 +20,7 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
 document.addEventListener('DOMContentLoaded', function() {
     if (/Mobi|Android/i.test(navigator.userAgent)) {
         const style = document.createElement('style');
-        style.textContent = '.country-name { font-size: 0.5em !important; }';
+        style.textContent = '.country-name { font-size: 0.9em !important; }';
         document.head.appendChild(style);
     }
 });
