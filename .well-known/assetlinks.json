@@ -4,7 +4,8 @@
     "namespace": "android_app",
     "package_name": "com.flagmaster.world",
     "sha256_cert_fingerprints": [
-      "1C:2D:DB:32:A9:0B:D9:47:C2:1E:DA:BA:B6:85:8C:59:1F:3D:C7:2F:0C:27:0D:93:CF:91:EE:3A:63:77:0A:99"
+      "1C:2D:DB:32:A9:0B:D9:47:C2:1E:DA:BA:B6:85:8C:59:1F:3D:C7:2F:0C:27:0D:93:CF:91:EE:3A:63:77:0A:99",
+      "DF:9F:15:CD:17:EF:14:5D:0C:AE:FD:3F:F5:60:0B:10:19:95:02:D0:96:64:41:85:3B:9F:6D:E4:8D:AA:30:A0"
     ]
   }
 }]
