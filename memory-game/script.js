@@ -16,6 +16,15 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
     document.addEventListener('webkitfullscreenchange', lockLandscape);
 }
 
+// 국가 이름 폰트 크기 강제 설정 (모바일)
+document.addEventListener('DOMContentLoaded', function() {
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+        const style = document.createElement('style');
+        style.textContent = '.country-name { font-size: 0.5em !important; }';
+        document.head.appendChild(style);
+    }
+});
+
 // 앱 설정 로드
 var appSettings = JSON.parse(localStorage.getItem('appSettings') || '{"voiceEnabled":true,"soundEnabled":true,"voiceSpeed":1.3}');
 
